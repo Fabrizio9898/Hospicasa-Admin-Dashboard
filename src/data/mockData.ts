@@ -1,6 +1,18 @@
 import { tokens } from "../theme";
 
-export const mockDataTeam = [
+
+interface ITransaction {
+  id: number;
+  name: string;
+  email: string;
+  age?: number;
+  phone:string,
+  access?:string 
+  cost?:string,
+  date?:string// Es un string porque en tu JSX lo usás directo
+}
+
+export const mockDataTeam :ITransaction[]= [
   {
     id: 1,
     name: "Jon Snow",
@@ -199,7 +211,7 @@ export const mockDataContacts = [
   },
 ];
 
-export const mockDataInvoices = [
+export const mockDataInvoices:ITransaction[] = [
   {
     id: 1,
     name: "Jon Snow",
@@ -266,7 +278,14 @@ export const mockDataInvoices = [
   },
 ];
 
-export const mockTransactions = [
+interface IMockTransaction {
+  txId: string;
+  user: string;
+  date: string;
+  cost: string; // Es un string porque en tu JSX lo usás directo
+}
+
+export const mockTransactions: IMockTransaction[] = [
   {
     txId: "01e4dsa",
     user: "johndoe",

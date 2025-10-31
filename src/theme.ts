@@ -1,10 +1,14 @@
 import { createContext, useState, useMemo } from "react";
-import { createTheme } from "@mui/material/styles";
+// 1. Importa los tipos necesarios de MUI
+import { createTheme, Theme, ThemeOptions } from "@mui/material/styles";
+import { PaletteMode } from "@mui/material";
 
 // color design tokens export
-export const tokens = (mode) => ({
+// 2. Tipamos 'mode' como PaletteMode ('light' | 'dark')
+export const tokens = (mode: PaletteMode) => ({
   ...(mode === "dark"
     ? {
+        // (Tu objeto de colores dark... todo esto está bien)
         grey: {
           100: "#e0e0e0",
           200: "#c2c2c2",
@@ -62,6 +66,7 @@ export const tokens = (mode) => ({
         },
       }
     : {
+        // (Tu objeto de colores light... todo esto está bien)
         grey: {
           100: "#141414",
           200: "#292929",
@@ -77,7 +82,7 @@ export const tokens = (mode) => ({
           100: "#040509",
           200: "#080b12",
           300: "#0c101b",
-          400: "#f2f0f0", // manually changed
+          400: "#f2f0f0",
           500: "#141b2d",
           600: "#1F2A40",
           700: "#727681",
@@ -121,14 +126,15 @@ export const tokens = (mode) => ({
 });
 
 // mui theme settings
-export const themeSettings = (mode) => {
+// 3. Tipamos 'mode' y el valor de retorno, que es 'ThemeOptions'
+export const themeSettings = (mode: PaletteMode): ThemeOptions => {
   const colors = tokens(mode);
   return {
     palette: {
       mode: mode,
       ...(mode === "dark"
         ? {
-            // palette values for dark mode
+            // (Tu paleta dark... todo bien)
             primary: {
               main: colors.primary[500],
             },
@@ -145,7 +151,7 @@ export const themeSettings = (mode) => {
             },
           }
         : {
-            // palette values for light mode
+            // (Tu paleta light... todo bien)
             primary: {
               main: colors.primary[100],
             },
@@ -163,6 +169,7 @@ export const themeSettings = (mode) => {
           }),
     },
     typography: {
+      // (Tu tipografía... todo bien)
       fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
       fontSize: 12,
       h1: {
@@ -193,22 +200,32 @@ export const themeSettings = (mode) => {
   };
 };
 
-// context for color mode
-export const ColorModeContext = createContext({
+// 4. Define la "forma" (interfaz) de tu contexto
+export interface IColorModeContext {
+  toggleColorMode: () => void;
+}
+
+// 5. Tipa el 'createContext' con esa interfaz
+export const ColorModeContext = createContext<IColorModeContext>({
   toggleColorMode: () => {},
 });
 
-export const useMode = () => {
-  const [mode, setMode] = useState("dark");
+// 6. Tipa el valor de retorno de tu hook 'useMode'
+export const useMode = (): [Theme, IColorModeContext] => {
+  // 7. Tipa el 'useState'
+  const [mode, setMode] = useState<PaletteMode>("dark");
 
   const colorMode = useMemo(
-    () => ({
+    // 8. Tipa el valor de retorno de 'useMemo'
+    (): IColorModeContext => ({
       toggleColorMode: () =>
         setMode((prev) => (prev === "light" ? "dark" : "light")),
     }),
     []
   );
 
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  // 9. 'theme' será de tipo 'Theme'
+  const theme: Theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
   return [theme, colorMode];
 };

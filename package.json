@@ -31,8 +31,10 @@
     "react-pro-sidebar": "^0.7.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.3.0",
+    "sweetalert2": "^11.26.3",
     "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zod": "^4.1.12"
   },
   "scripts": {
     "dev": "vite",

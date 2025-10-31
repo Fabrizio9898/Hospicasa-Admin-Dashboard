@@ -1,13 +1,13 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
+import { mockTransactions } from "../../data/mockData"; // Asegúrate que este archivo sea .ts
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
-// import LineChart from "../../components/LineChart"; // <-- LÍNEA BORRADA
+// import LineChart from "../../components/LineChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 
@@ -16,9 +16,11 @@ const Dashboard = () => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Box m="20px">
+    // CAMBIO: 'm' movido a 'sx'
+    <Box sx={{ m: "20px" }}>
       {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      {/* CAMBIO: props de display/justify/align movidas a 'sx' */}
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
 
         <Box>
@@ -38,19 +40,23 @@ const Dashboard = () => {
       </Box>
 
       {/* GRID & CHARTS */}
+      {/* CAMBIO: props de grid movidas a 'sx' */}
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="140px"
-        gap="20px"
+        sx={{ gap: "20px" }}
       >
         {/* ROW 1 */}
+        {/* CAMBIO: props de estilo movidas a 'sx' */}
         <Box
           gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+          sx={{
+            backgroundColor: colors.primary[400],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <StatBox
             title="12,361"
@@ -64,12 +70,15 @@ const Dashboard = () => {
             }
           />
         </Box>
+        {/* CAMBIO: props de estilo movidas a 'sx' */}
         <Box
           gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+          sx={{
+            backgroundColor: colors.primary[400],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <StatBox
             title="431,225"
@@ -83,12 +92,15 @@ const Dashboard = () => {
             }
           />
         </Box>
+        {/* CAMBIO: props de estilo movidas a 'sx' */}
         <Box
           gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+          sx={{
+            backgroundColor: colors.primary[400],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <StatBox
             title="32,441"
@@ -102,12 +114,15 @@ const Dashboard = () => {
             }
           />
         </Box>
+        {/* CAMBIO: props de estilo movidas a 'sx' */}
         <Box
           gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+          sx={{
+            backgroundColor: colors.primary[400],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <StatBox
             title="1,325,134"
@@ -123,17 +138,21 @@ const Dashboard = () => {
         </Box>
 
         {/* ROW 2 */}
+        {/* CAMBIO: 'backgroundColor' movido a 'sx' */}
         <Box
           gridColumn="span 8"
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          sx={{ backgroundColor: colors.primary[400] }}
         >
+          {/* CAMBIO: props de layout (mt, p, display, etc) movidas a 'sx' */}
           <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
-            justifyContent="space-between"
-            alignItems="center"
+            sx={{
+              mt: "25px",
+              p: "0 30px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
             <Box>
               <Typography
@@ -159,36 +178,45 @@ const Dashboard = () => {
               </IconButton>
             </Box>
           </Box>
-          <Box height="250px" m="-20px 0 0 0">
-            {/* <LineChart isDashboard={true} /> */} {/* <-- LÍNEA BORRADA */}
+          {/* CAMBIO: 'height' y 'm' movidas a 'sx' */}
+          <Box sx={{ height: "250px", m: "-20px 0 0 0" }}>
+            {/* <LineChart isDashboard={true} /> */}
           </Box>
         </Box>
+        {/* CAMBIO: 'backgroundColor' y 'overflow' movidas a 'sx' */}
         <Box
           gridColumn="span 4"
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          overflow="auto"
+          sx={{
+            backgroundColor: colors.primary[400],
+            overflow: "auto",
+          }}
         >
+          {/* CAMBIO: props de estilo movidas a 'sx'. Prop 'colors' eliminada (no es válida) */}
           <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            borderBottom={`4px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
-            p="15px"
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderBottom: `4px solid ${colors.primary[500]}`,
+              p: "15px",
+            }}
           >
             <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
               Recent Transactions
             </Typography>
           </Box>
           {mockTransactions.map((transaction, i) => (
+            // CAMBIO: props de estilo movidas a 'sx'
             <Box
               key={`${transaction.txId}-${i}`}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderBottom: `4px solid ${colors.primary[500]}`,
+                p: "15px",
+              }}
             >
               <Box>
                 <Typography
@@ -202,11 +230,15 @@ const Dashboard = () => {
                   {transaction.user}
                 </Typography>
               </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
+              {/* CAMBIO: 'color' movido a 'sx' */}
+              <Box sx={{ color: colors.grey[100] }}>{transaction.date}</Box>
+              {/* CAMBIO: props de estilo movidas a 'sx' */}
               <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
+                sx={{
+                  backgroundColor: colors.greenAccent[500],
+                  p: "5px 10px",
+                  borderRadius: "4px",
+                }}
               >
                 ${transaction.cost}
               </Box>
@@ -215,20 +247,26 @@ const Dashboard = () => {
         </Box>
 
         {/* ROW 3 */}
+        {/* CAMBIO: 'backgroundColor' y 'p' movidas a 'sx' */}
         <Box
           gridColumn="span 4"
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          p="30px"
+          sx={{
+            backgroundColor: colors.primary[400],
+            p: "30px",
+          }}
         >
           <Typography variant="h5" fontWeight="600">
             Campaign
           </Typography>
+          {/* CAMBIO: props de estilo movidas a 'sx' */}
           <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            mt="25px"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              mt: "25px",
+            }}
           >
             <ProgressCircle size="125" />
             <Typography
