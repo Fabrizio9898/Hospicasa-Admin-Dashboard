@@ -1,18 +1,17 @@
 "use client";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginSchema, LoginSchema } from "../types/login-schema.type";
-import { LoginErrors } from "../types/errorTypes.type";
-import { zodValidate } from "./zodValidation.helper";
+import { loginSchema, LoginSchema } from "../../types/login-schema.type";
+import { LoginErrors } from "../../types/errorTypes.type";
+import { zodValidate } from "../zod/zodValidation.helper";
 import { swalNotifySuccess } from "../notifications/swal/success.notification";
 import { swalCustomError } from "../notifications/swal/customError.notification";
-import { login } from "./auth/login";
+import { login } from "./login";
 import {
   LoginResponse,
   loginResponseSchema,
-} from "../types/loginResponse.type";
-import { UserRole } from "../enums/userRole.enum";
-import { ErrorHelper } from "./error/error.helper";
+} from "../../types/loginResponse.type";
+import { ErrorHelper } from "../error/error.helper";
 import { swalNotifyUnknownError } from "../notifications/swal/unknownError.notification";
 
 export const useLoginFunctions = () => {
@@ -52,7 +51,7 @@ export const useLoginFunctions = () => {
     const validation = zodValidate<LoginErrors>(userData, loginSchema);
 
     if (!validation.success) {
-      setErrors(validation.errors); 
+      setErrors(validation.errors);
       swalCustomError(
         "Error en Logueo",
         "Por favor corrige los errores antes de continuar."
@@ -60,7 +59,7 @@ export const useLoginFunctions = () => {
       setIsSubmitting(false);
       return;
     }
-setErrors(null);
+    setErrors(null);
     try {
       const response: LoginResponse = await login(userData);
 

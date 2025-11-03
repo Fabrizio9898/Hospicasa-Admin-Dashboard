@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { ErrorHelper, verifyError } from "../../helpers/error/error.helper";
+import { ErrorHelper, verifyError } from "../../error/error.helper";
 
 // helpers/swal/swal-notify-error.ts
 export function swalNotifyError(error: string | ErrorHelper) {

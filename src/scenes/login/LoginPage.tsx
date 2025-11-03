@@ -8,7 +8,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useLoginFunctions } from '../../helpers/loginFunctions.helper'; 
+import { useLoginFunctions } from '../../helpers/auth/loginFunctions.helper'; 
 
 const LoginPage = () => {
 

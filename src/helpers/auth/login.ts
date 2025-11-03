@@ -4,7 +4,7 @@ import { ErrorHelper, verifyError } from "../error/error.helper";
 
 export async function login(userData: LoginSchema) {
   try {
-    const res = await fetch(`${API_URL}/auth/login`, {
+    const res = await fetch(`${API_URL}/admin/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

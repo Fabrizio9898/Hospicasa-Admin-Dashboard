@@ -1,4 +1,4 @@
-import { swalNotifySuccess } from "../../notifications/swal/success.notification";
+import { swalNotifySuccess } from "../notifications/swal/success.notification";
 
 export function logout(fire_swal: boolean): void {
   localStorage.removeItem("userSession");
