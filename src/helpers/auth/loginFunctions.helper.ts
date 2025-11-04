@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginSchema, LoginSchema } from "../../types/login-schema.type";
 import { LoginErrors } from "../../types/errorTypes.type";
@@ -13,6 +13,7 @@ import {
 } from "../../types/loginResponse.type";
 import { ErrorHelper } from "../error/error.helper";
 import { swalNotifyUnknownError } from "../notifications/swal/unknownError.notification";
+import { useAuthStore } from "../../store/auth.store";
 
 export const useLoginFunctions = () => {
   const navigate = useNavigate();
@@ -20,11 +21,15 @@ export const useLoginFunctions = () => {
     email: "",
     password: "",
   };
-
+  const zustandLoginAction = useAuthStore((state) => state.login);
   const [userData, setUserData] = useState<LoginSchema>(initialState);
   const [errors, setErrors] = useState<LoginErrors | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    checkUrlParams();
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value: rawValue } = event.target;
@@ -71,7 +76,7 @@ export const useLoginFunctions = () => {
 
       const { user, token } = responseValidation.data;
 
-      localStorage.setItem("userSession", JSON.stringify({ token, user }));
+      zustandLoginAction({ user, token }); 
       swalNotifySuccess("¡Bienvenido!", "");
       navigate("/", { replace: true });
     } catch (error) {
@@ -85,27 +90,27 @@ export const useLoginFunctions = () => {
     }
   };
 
-  // // Verificar parámetros de URL para mensajes
-  // const checkUrlParams = () => {
-  //   const queryString = new URLSearchParams(window.location.search);
-  //   const queryParams = Object.fromEntries(queryString.entries()) as {
-  //     from: string;
-  //   };
+  // Verificar parámetros de URL para mensajes
+  const checkUrlParams = () => {
+    const queryString = new URLSearchParams(window.location.search);
+    const queryParams = Object.fromEntries(queryString.entries()) as {
+      from: string;
+    };
 
-  //   if (queryParams.from === "out_session") {
-  //     swalCustomError(
-  //       "La sesion ha expirado!",
-  //       "Debes iniciar sesion nuevamente",
-  //       [, 6000]
-  //     );
-  //   } else if (queryParams.from === "user_blocked") {
-  //     swalCustomError(
-  //       "No se pudo iniciar sesion",
-  //       "Este usuario fue baneado!",
-  //       [, 6000]
-  //     );
-  //   }
-  // };
+    if (queryParams.from === "out_session") {
+      swalCustomError(
+        "La sesion ha expirado!",
+        "Debes iniciar sesion nuevamente",
+        [, 6000]
+      );
+    } else if (queryParams.from === "user_blocked") {
+      swalCustomError(
+        "No se pudo iniciar sesion",
+        "Este usuario fue baneado!",
+        [, 6000]
+      );
+    }
+  };
 
   return {
     userData,

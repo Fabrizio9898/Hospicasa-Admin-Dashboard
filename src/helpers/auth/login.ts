@@ -1,27 +1,23 @@
-import { API_URL } from "../../config/envs.config";
+import axios from "axios"; // <-- 1. Importa axios
 import { LoginSchema } from "../../types/login-schema.type";
 import { ErrorHelper, verifyError } from "../error/error.helper";
+import api from "../../api/api";
+import { LoginResponse } from "../../types/loginResponse.type"; // (Asumo que necesitas este tipo)
 
-export async function login(userData: LoginSchema) {
+export async function login(userData: LoginSchema): Promise<LoginResponse> {
   try {
-    const res = await fetch(`${API_URL}/admin/login`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
+    const res = await api.post(`/admin/login`, userData);
+    return res.data; 
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      const errorMessage = error.response.data.message || "Error desconocido";
 
-    if (!res.ok) {
-      const errorResponse = await res.json();
-
-      const errorMessage = errorResponse.message || "Error desconocido";
-
-      throw new ErrorHelper(verifyError(errorMessage), res.status.toString());
+      throw new ErrorHelper(
+        verifyError(errorMessage),
+        error.response.status.toString()
+      );
     }
 
-    return res.json();
-  } catch (error) {
     throw error;
   }
 }
