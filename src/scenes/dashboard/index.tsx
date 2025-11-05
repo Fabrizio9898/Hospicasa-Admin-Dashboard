@@ -1,198 +1,165 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { useEffect } from "react";
+import { Box, Button, CircularProgress, IconButton, Typography, useTheme } from "@mui/material";
+import { Link } from "react-router-dom"; // <-- 1. IMPORTAR LINK
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData"; // Asegúrate que este archivo sea .ts
+import { mockTransactions } from "../../data/mockData"; 
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
-// import LineChart from "../../components/LineChart";
 import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
+import { useDashboardStore } from "../../store/dashboardData.store";
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices'; 
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { kpis, isLoading, error, fetchKpis } = useDashboardStore();
 
+  useEffect(() => {
+    fetchKpis();
+  }, [fetchKpis]);
+
+  // --- (Estados de Loading y Error - están perfectos) ---
+  if (isLoading) {
+    return (
+      <Box sx={{ m: "20px", display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
+        <CircularProgress color="secondary" size={60} />
+      </Box>
+    );
+  }
+  if (error) {
+    // ... (tu estado de error)
+  }
+
+  // --- RENDERIZADO DEL DASHBOARD ---
   return (
-    // CAMBIO: 'm' movido a 'sx'
     <Box sx={{ m: "20px" }}>
       {/* HEADER */}
-      {/* CAMBIO: props de display/justify/align movidas a 'sx' */}
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
-        <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box>
+        <Header title="DASHBOARD" subtitle="Bienvenido a tu panel de administración" />
+        {/* (Botón de reportes) */}
       </Box>
 
-      {/* GRID & CHARTS */}
-      {/* CAMBIO: props de grid movidas a 'sx' */}
+      {/* --- NUEVO GRID DE KPIs (4 Cajas, todas son links) --- */}
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="140px"
         sx={{ gap: "20px" }}
       >
-        {/* ROW 1 */}
-        {/* CAMBIO: props de estilo movidas a 'sx' */}
+        {/* KPI 1: GANANCIAS */}
         <Box
           gridColumn="span 3"
+          component={Link} // <-- 2. ES UN LINK
+          to="/invoices" // <-- 3. A DÓNDE VA
           sx={{
             backgroundColor: colors.primary[400],
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            textDecoration: "none", // <-- 4. Saca el subrayado
+            '&:hover': {
+              backgroundColor: colors.primary[300] // (Efecto hover)
+            }
           }}
         >
           <StatBox
-            title="12,361"
-            subtitle="Emails Sent"
-            progress="0.75"
-            increase="+14%"
-            icon={
-              <EmailIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        {/* CAMBIO: props de estilo movidas a 'sx' */}
-        <Box
-          gridColumn="span 3"
-          sx={{
-            backgroundColor: colors.primary[400],
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <StatBox
-            title="431,225"
-            subtitle="Sales Obtained"
-            progress="0.50"
-            increase="+21%"
-            icon={
-              <PointOfSaleIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        {/* CAMBIO: props de estilo movidas a 'sx' */}
-        <Box
-          gridColumn="span 3"
-          sx={{
-            backgroundColor: colors.primary[400],
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <StatBox
-            title="32,441"
-            subtitle="New Clients"
-            progress="0.30"
-            increase="+5%"
-            icon={
-              <PersonAddIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
-        {/* CAMBIO: props de estilo movidas a 'sx' */}
-        <Box
-          gridColumn="span 3"
-          sx={{
-            backgroundColor: colors.primary[400],
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <StatBox
-            title="1,325,134"
-            subtitle="Traffic Received"
-            progress="0.80"
-            increase="+43%"
-            icon={
-              <TrafficIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
+            title={`$${kpis?.revenueMonth.toLocaleString() || "0"}`}
+            subtitle="Ganancias del Mes"
+            progress="0" // (Quitamos esto)
+            increase=" " // (Quitamos esto)
+            icon={<PointOfSaleIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
           />
         </Box>
 
-        {/* ROW 2 */}
-        {/* CAMBIO: 'backgroundColor' movido a 'sx' */}
+        {/* KPI 2: DOCTORES PENDIENTES */}
         <Box
-          gridColumn="span 8"
-          gridRow="span 2"
-          sx={{ backgroundColor: colors.primary[400] }}
+          gridColumn="span 3"
+          component={Link}
+          to="/team" // <-- Te lleva a la página de Doctores
+          sx={{
+            backgroundColor: colors.primary[400],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textDecoration: "none",
+            '&:hover': {
+              backgroundColor: colors.primary[300]
+            }
+          }}
         >
-          {/* CAMBIO: props de layout (mt, p, display, etc) movidas a 'sx' */}
-          <Box
-            sx={{
-              mt: "25px",
-              p: "0 30px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Box>
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
-                Revenue Generated
-              </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
-                $59,342.32
-              </Typography>
-            </Box>
-            <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
-              </IconButton>
-            </Box>
-          </Box>
-          {/* CAMBIO: 'height' y 'm' movidas a 'sx' */}
-          <Box sx={{ height: "250px", m: "-20px 0 0 0" }}>
-            {/* <LineChart isDashboard={true} /> */}
-          </Box>
+          <StatBox
+            title={kpis?.pendingDoctorsCount.toString() || "0"}
+            subtitle="Doctores Pendientes"
+            progress="0"
+            increase={`+${kpis?.newDoctorsMonth || '0'} nuevos`} // (Dato secundario)
+            icon={<MedicalServicesIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+          />
         </Box>
-        {/* CAMBIO: 'backgroundColor' y 'overflow' movidas a 'sx' */}
+
+        {/* KPI 3: NUEVOS PACIENTES */}
         <Box
-          gridColumn="span 4"
+          gridColumn="span 3"
+          component={Link}
+          to="/contacts" // <-- Te lleva a la página de Pacientes
+          sx={{
+            backgroundColor: colors.primary[400],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textDecoration: "none",
+            '&:hover': {
+              backgroundColor: colors.primary[300]
+            }
+          }}
+        >
+          <StatBox
+            title={kpis?.newPatientsMonth.toString() || "0"}
+            subtitle="Nuevos Pacientes (Mes)"
+            progress="0"
+            increase=" "
+            icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+          />
+        </Box>
+
+        {/* KPI 4: CITAS DEL MES */}
+        <Box
+          gridColumn="span 3"
+          component={Link}
+          to="/invoices" // <-- Te lleva a la página de Citas/Facturas
+          sx={{
+            backgroundColor: colors.primary[400],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textDecoration: "none",
+            '&:hover': {
+              backgroundColor: colors.primary[300]
+            }
+          }}
+        >
+          <StatBox
+            title={kpis?.appointmentsMonth.toString() || "0"}
+            subtitle="Citas del Mes"
+            progress="0"
+            increase=" "
+            icon={<TrafficIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+          />
+        </Box>
+
+        {/* --- ROW 2 (REDISEÑADA) --- */}
+
+        {/* Transacciones Recientes (más grande) */}
+        <Box
+          gridColumn="span 12" // <-- Ocupa todo el ancho
           gridRow="span 2"
           sx={{
             backgroundColor: colors.primary[400],
-            overflow: "auto",
+            overflow: "hidden", // (No auto, para que no tenga scroll)
           }}
         >
-          {/* CAMBIO: props de estilo movidas a 'sx'. Prop 'colors' eliminada (no es válida) */}
           <Box
             sx={{
               display: "flex",
@@ -203,11 +170,22 @@ const Dashboard = () => {
             }}
           >
             <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
+              Transacciones Recientes
             </Typography>
+            {/* 5. BOTÓN "VER MÁS" */}
+            <Button
+              component={Link}
+              to="/transactions" // <-- Te lleva a la futura página de pagos
+              variant="contained"
+              color="secondary"
+              size="small"
+            >
+              Ver Más
+            </Button>
           </Box>
-          {mockTransactions.map((transaction, i) => (
-            // CAMBIO: props de estilo movidas a 'sx'
+          
+          {/* 6. Muestra solo las ÚLTIMAS 5 */}
+          {mockTransactions.slice(0, 5).map((transaction, i) => (
             <Box
               key={`${transaction.txId}-${i}`}
               sx={{
@@ -218,21 +196,16 @@ const Dashboard = () => {
                 p: "15px",
               }}
             >
+              {/* (Tu JSX para cada transacción) */}
               <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
+                <Typography color={colors.greenAccent[500]} variant="h5" fontWeight="600">
                   {transaction.txId}
                 </Typography>
                 <Typography color={colors.grey[100]}>
                   {transaction.user}
                 </Typography>
               </Box>
-              {/* CAMBIO: 'color' movido a 'sx' */}
               <Box sx={{ color: colors.grey[100] }}>{transaction.date}</Box>
-              {/* CAMBIO: props de estilo movidas a 'sx' */}
               <Box
                 sx={{
                   backgroundColor: colors.greenAccent[500],
@@ -245,40 +218,7 @@ const Dashboard = () => {
             </Box>
           ))}
         </Box>
-
-        {/* ROW 3 */}
-        {/* CAMBIO: 'backgroundColor' y 'p' movidas a 'sx' */}
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          sx={{
-            backgroundColor: colors.primary[400],
-            p: "30px",
-          }}
-        >
-          <Typography variant="h5" fontWeight="600">
-            Campaign
-          </Typography>
-          {/* CAMBIO: props de estilo movidas a 'sx' */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              mt: "25px",
-            }}
-          >
-            <ProgressCircle size="125" />
-            <Typography
-              variant="h5"
-              color={colors.greenAccent[500]}
-              sx={{ mt: "15px" }}
-            >
-              $48,352 revenue generated
-            </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
-          </Box>
-        </Box>
+        
       </Box>
     </Box>
   );

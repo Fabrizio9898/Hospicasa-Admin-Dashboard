@@ -1,4 +1,6 @@
 import { useState } from "react";
+// 1. IMPORTA 'React' PARA USAR LOS TIPOS
+import React from "react"; 
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -11,8 +13,20 @@ import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { useAuthStore } from "../../store/auth.store";
+import { UserRole } from "../../enums/userRole.enum";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+// 2. DEFINE LA "FORMA" (INTERFACE) DE LAS PROPS DE 'Item'
+interface ItemProps {
+  title: string;
+  to: string;
+  icon: React.ReactNode; // 'ReactNode' es el tipo para un icono JSX
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+}
+
+// 3. APLICA LA INTERFACE AL COMPONENTE
+const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -31,6 +45,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const Sidebar = () => {
+  const {user}=useAuthStore()
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -68,15 +83,15 @@ const Sidebar = () => {
             }}
           >
             {!isCollapsed && (
+              // 4. CORRECCIÓN DE MUI v5: Mover props a 'sx'
               <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  ml: "15px",
+                }}
               >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
-                </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
                 </IconButton>
@@ -85,33 +100,35 @@ const Sidebar = () => {
           </MenuItem>
 
           {!isCollapsed && (
-            <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
+            // 4. CORRECCIÓN DE MUI v5: Mover 'mb' a 'sx'
+            <Box sx={{ mb: "25px" }}>
+              {/* 4. CORRECCIÓN DE MUI v5: Mover props a 'sx' */}
+              <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <img
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  src={user?.profile_image} // (Asegúrate que esto esté en 'public/assets/user.png')
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
-              <Box textAlign="center">
+              {/* 4. CORRECCIÓN DE MUI v5: Mover 'textAlign' a 'sx' */}
+              <Box sx={{ textAlign: "center" }}>
                 <Typography
                   variant="h2"
                   color={colors.grey[100]}
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
-                </Typography>
+{user?.name}                </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
-                </Typography>
+{user?.role===UserRole.ADMIN?"Admin":"Super Admin"}                </Typography>
               </Box>
             </Box>
           )}
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          {/* 4. CORRECCIÓN DE MUI v5: Mover 'paddingLeft' a 'sx' */}
+          <Box sx={{ paddingLeft: isCollapsed ? undefined : "10%" }}>
             <Item
               title="Dashboard"
               to="/"
@@ -163,7 +180,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Item
               title="FAQ Page"
               to="/faq"
@@ -171,9 +187,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
-          
-            
           </Box>
         </Menu>
       </ProSidebar>

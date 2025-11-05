@@ -2,12 +2,14 @@ import { createContext, useState, useMemo } from "react";
 // 1. Importa los tipos necesarios de MUI
 import { createTheme, Theme, ThemeOptions } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
+import { yellow } from "@mui/material/colors";
 
 // color design tokens export
 // 2. Tipamos 'mode' como PaletteMode ('light' | 'dark')
 export const tokens = (mode: PaletteMode) => ({
   ...(mode === "dark"
     ? {
+        yellow: yellow,
         // (Tu objeto de colores dark... todo esto está bien)
         grey: {
           100: "#e0e0e0",
@@ -66,7 +68,7 @@ export const tokens = (mode: PaletteMode) => ({
         },
       }
     : {
-        // (Tu objeto de colores light... todo esto está bien)
+        yellow: yellow, // (Tu objeto de colores light... todo esto está bien)
         grey: {
           100: "#141414",
           200: "#292929",
