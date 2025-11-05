@@ -3,7 +3,6 @@ import { useState } from "react";
 import React from "react"; 
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -15,31 +14,34 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useAuthStore } from "../../store/auth.store";
 import { UserRole } from "../../enums/userRole.enum";
+import { Link, useLocation } from "react-router-dom";
 
-// 2. DEFINE LA "FORMA" (INTERFACE) DE LAS PROPS DE 'Item'
+
+
 interface ItemProps {
   title: string;
   to: string;
-  icon: React.ReactNode; // 'ReactNode' es el tipo para un icono JSX
-  selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
+  icon: React.ReactNode; 
 }
 
 // 3. APLICA LA INTERFACE AL COMPONENTE
-const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
+const Item = ({ title, to, icon }: ItemProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
+  const location = useLocation();
+  const isActive = location.pathname === to;
+
   return (
     <MenuItem
-      active={selected === title}
+      active={isActive} 
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
       icon={icon}
     >
       <Typography>{title}</Typography>
-      <Link to={to} />
+      <Link to={to} /> 
     </MenuItem>
   );
 };
@@ -49,7 +51,6 @@ const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
 
   return (
     <Box
@@ -133,8 +134,7 @@ const Sidebar = () => {
               title="Dashboard"
               to="/"
               icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
+              
             />
 
             <Typography
@@ -148,22 +148,21 @@ const Sidebar = () => {
               title="Manage Team"
               to="/team"
               icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
+              
             />
             <Item
               title="Contacts Information"
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
+        
+              
             />
             <Item
               title="Invoices Balances"
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
+        
+              
             />
 
             <Typography
@@ -177,15 +176,15 @@ const Sidebar = () => {
               title="Profile Form"
               to="/form"
               icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
+        
+              
             />
             <Item
               title="FAQ Page"
               to="/faq"
               icon={<HelpOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
+        
+              
             />
           </Box>
         </Menu>
