@@ -1,5 +1,4 @@
 import { useState } from "react";
-// 1. IMPORTA 'React' PARA USAR LOS TIPOS
 import React from "react"; 
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -101,19 +100,16 @@ const Sidebar = () => {
           </MenuItem>
 
           {!isCollapsed && (
-            // 4. CORRECCIÓN DE MUI v5: Mover 'mb' a 'sx'
             <Box sx={{ mb: "25px" }}>
-              {/* 4. CORRECCIÓN DE MUI v5: Mover props a 'sx' */}
               <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <img
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={user?.profile_image} // (Asegúrate que esto esté en 'public/assets/user.png')
+                  src={user?.profile_image} 
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
-              {/* 4. CORRECCIÓN DE MUI v5: Mover 'textAlign' a 'sx' */}
               <Box sx={{ textAlign: "center" }}>
                 <Typography
                   variant="h2"
@@ -128,7 +124,6 @@ const Sidebar = () => {
             </Box>
           )}
 
-          {/* 4. CORRECCIÓN DE MUI v5: Mover 'paddingLeft' a 'sx' */}
           <Box sx={{ paddingLeft: isCollapsed ? undefined : "10%" }}>
             <Item
               title="Dashboard"
@@ -145,18 +140,12 @@ const Sidebar = () => {
               Data
             </Typography>
             <Item
-              title="Manage Team"
+              title="Doctores"
               to="/team"
               icon={<PeopleOutlinedIcon />}
               
             />
-            <Item
-              title="Contacts Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-        
-              
-            />
+           
             <Item
               title="Invoices Balances"
               to="/invoices"

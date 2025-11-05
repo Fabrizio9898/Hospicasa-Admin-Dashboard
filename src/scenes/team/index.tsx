@@ -25,16 +25,7 @@ import { DoctorPublic } from '../../types/doctor.type';
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  // --- 4. LEEMOS EL ESTADO Y LAS ACCIONES DEL STORE ---
   const { doctorsData, isLoading, error, fetchDoctors } = useDoctorStore();
-
-  // --- 5. BORRAMOS LOS ESTADOS LOCALES (Zustand los maneja) ---
-  // const [doctorsData, setDoctorsData] = useState<DoctorListResponse | null>(null);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [error, setError] = useState<string | null>(null);
-
-  // --- 6. MANTENEMOS LOS ESTADOS LOCALES (Controlan la UI) ---
   const [filterStatus, setFilterStatus] = useState<Doctor_Status>(
     Doctor_Status.PENDING,
   );
@@ -43,23 +34,18 @@ const Team = () => {
     pageSize: 10,
   });
 
-  // --- 7. EL useEffect AHORA SOLO LLAMA A LA ACCIÓN DEL STORE ---
   useEffect(() => {
-    // Preparamos los parámetros para el backend
     const query = {
       status: filterStatus,
       page: paginationModel.page + 1,
       limit: paginationModel.pageSize,
     };
 
-    // Llamamos a la acción de Zustand, que se encarga
-    // de 'setIsLoading', 'setError', y 'setDoctorsData'.
     fetchDoctors(query); 
 
-  }, [filterStatus, paginationModel, fetchDoctors]); // <-- 'fetchDoctors' es estable, no causa re-renders
+  }, [filterStatus, paginationModel, fetchDoctors]); 
 
   
-  // --- (Tus funciones de ayuda 'StatusCircle', 'getColorForStatus', etc. quedan igual) ---
   const StatusCircle = ({ color }: { color: string }) => (
     <Box
       component="span"

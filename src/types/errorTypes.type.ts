@@ -5,9 +5,6 @@ type InnerError = {
 export type RegisterErrors = {
   name?: InnerError;
   email?: InnerError;
-  password?: InnerError;
-  confirm_password?: InnerError;
-  profile_image?: InnerError;
 };
 
 export type LoginErrors = {

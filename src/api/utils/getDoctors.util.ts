@@ -1,8 +1,8 @@
-import { Doctor_Status } from "../enums/doctorStatus.enum";
+import { Doctor_Status } from "../../enums/doctorStatus.enum";
 import axios from "axios";
-import { ErrorHelper, verifyError } from "../helpers/error/error.helper";
-import api from "../api/api";
-import { DoctorListResponse } from "../types/doctor.type";
+import { ErrorHelper, verifyError } from "../../helpers/error/error.helper";
+import api from "../api";
+import { DoctorListResponse } from "../../types/doctor.type";
 
 export interface GetDoctorsQuery {
   status?: Doctor_Status;

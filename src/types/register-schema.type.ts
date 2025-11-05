@@ -1,5 +1,11 @@
 import * as z from "zod";
 
+
+export const createAdminResponse=z.object({
+message:z.string()
+})
+
+
 export const createAdminSchema = z.object({
   name: z
     .string()

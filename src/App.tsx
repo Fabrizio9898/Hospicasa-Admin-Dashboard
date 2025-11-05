@@ -3,7 +3,7 @@ import LoginPage from "./scenes/login/LoginPage";
 import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/team";
 import Invoices from "./scenes/invoices";
-import Form from "./scenes/form";
+import AdminRegister from "./scenes/form";
 import FAQ from "./scenes/faq";
 import DashboardLayout from "./DashboardLayout";
 import { CssBaseline,ThemeProvider  } from "@mui/material";
@@ -56,7 +56,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/team" element={<Team/>} />
           <Route path="/invoices" element={<Invoices />} />
-          <Route path="/form" element={<Form />} />
+          <Route path="/form" element={<AdminRegister />} />
           <Route path="/faq" element={<FAQ />} />
       </Route>
 

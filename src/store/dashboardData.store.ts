@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import { ErrorHelper } from "../helpers/error/error.helper"; 
-import { getKpis } from "../utils/getKpis.util";
-
+import { ErrorHelper } from "../helpers/error/error.helper";
+import { getKpis } from "../api/utils/getKpis.util";
 
 interface KpiData {
   pendingDoctorsCount: number;
@@ -25,13 +24,13 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   error: null,
 
   fetchKpis: async () => {
-    set({ isLoading: true, error: null }); 
+    set({ isLoading: true, error: null });
 
     try {
       const kpiData = await getKpis();
 
       console.log(kpiData);
-      
+
       set({ kpis: kpiData, isLoading: false });
     } catch (error) {
       console.error("Error al cargar KPIs:", error);

@@ -1,7 +1,10 @@
 import { create } from "zustand";
 import { ErrorHelper } from "../helpers/error/error.helper";
-import { getDoctors, type GetDoctorsQuery } from "../utils/getDoctors.util";
-import { DoctorListResponse, doctorListResponseSchema } from "../types/doctor.type";
+import { getDoctors, type GetDoctorsQuery } from "../api/utils/getDoctors.util";
+import {
+  DoctorListResponse,
+  doctorListResponseSchema,
+} from "../types/doctor.type";
 
 interface DoctorState {
   doctorsData: DoctorListResponse | null;
@@ -22,9 +25,8 @@ export const useDoctorStore = create<DoctorState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const responseData = await getDoctors(query);
-console.log(responseData);
+      console.log(responseData);
 
-     
       const validation = doctorListResponseSchema.safeParse(responseData);
       if (!validation.success) throw new Error("Respuesta de API inválida");
       set({ doctorsData: responseData, isLoading: false });
