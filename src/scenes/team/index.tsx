@@ -17,9 +17,10 @@ import {
 import { tokens } from '../../theme';
 import Header from '../../components/Header';
 import { Doctor_Status } from '../../enums/doctorStatus.enum';
-import { Link } from 'react-router-dom';
 import { useDoctorStore } from '../../store/doctorData.store';
 import { DoctorPublic } from '../../types/doctor.type';
+import { ModalView } from '../../components/Modal';
+import DoctorProfileScene from '../doctor-profile/doctorProfile.scene';
 
 
 const Team = () => {
@@ -33,6 +34,16 @@ const Team = () => {
     page: 0,
     pageSize: 10,
   });
+
+const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
+
+   const handleOpenModal = (id:string) =>{ 
+    setSelectedDoctorId(id)
+  
+  }
+  const handleCloseModal = () => {
+    setSelectedDoctorId(null);
+  }
 
   useEffect(() => {
     const query = {
@@ -60,7 +71,7 @@ const Team = () => {
       }}
     />
   );
-  const getColorForStatus = (status: Doctor_Status) => {
+  const getColorForStatus = (status: string) => {
     if (status === Doctor_Status.ACTIVE) return colors.greenAccent[500];
     if (status === Doctor_Status.REJECTED) return colors.redAccent[500];
     // Asumimos que PENDING usa el amarillo que agregaste
@@ -164,8 +175,7 @@ const Team = () => {
    renderCell: ({ row: { id } }: { row: DoctorPublic }) => {
     return (
      <Button
-      component={Link} 
-      to={`/doctor/${id}`} 
+      onClick={() => handleOpenModal(id)}
       variant="contained"
       color="secondary"
       size="small"
@@ -200,6 +210,7 @@ const Team = () => {
   }
 
   return (
+    <>
     <Box m="20px">
       <Header title="DOCTORES" subtitle="Administrar el equipo de doctores" />
       <Box
@@ -243,7 +254,13 @@ const Team = () => {
           disableColumnSorting
         />
       </Box>
+      <ModalView 
+          isOpen={!!selectedDoctorId} 
+          onClose={handleCloseModal}
+        >          <DoctorProfileScene doctorId={selectedDoctorId} /> 
+        </ModalView>
     </Box>
+    </>
   );
 };
 

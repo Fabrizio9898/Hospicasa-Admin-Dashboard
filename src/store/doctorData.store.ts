@@ -5,6 +5,7 @@ import {
   DoctorListResponse,
   doctorListResponseSchema,
 } from "../types/doctor.type";
+import z from "zod";
 
 interface DoctorState {
   doctorsData: DoctorListResponse | null;
@@ -28,7 +29,10 @@ export const useDoctorStore = create<DoctorState>((set) => ({
       console.log(responseData);
 
       const validation = doctorListResponseSchema.safeParse(responseData);
-      if (!validation.success) throw new Error("Respuesta de API inválida");
+ if (!validation.success) {
+          console.error("Error de Zod:",z.treeifyError(validation.error));
+          throw new Error("La respuesta del servidor no tiene la forma esperada.");
+        }    
       set({ doctorsData: responseData, isLoading: false });
     } catch (error) {
       console.error("Error al cargar doctores:", error);

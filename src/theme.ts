@@ -202,6 +202,8 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
   };
 };
 
+export type ColorTokens = ReturnType<typeof tokens>;
+
 // 4. Define la "forma" (interfaz) de tu contexto
 export interface IColorModeContext {
   toggleColorMode: () => void;

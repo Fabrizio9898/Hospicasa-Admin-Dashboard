@@ -16,7 +16,6 @@ export const useRegisterAdmin=()=>{
   const [userData, setUserData] = useState<CreateAdminSchema>(initialState);
   const [errors, setErrors] = useState<RegisterErrors | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value: rawValue } = event.target;

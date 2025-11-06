@@ -1,7 +1,9 @@
 import * as z from "zod";
 import { UserRole } from "../enums/userRole.enum";
 
-export const userCleanSchema = z.object({  
+const userRole = Object.values(UserRole) as [string, ...string[]];
+
+export const userCleanSchema = z.object({
   id: z.uuid(),
 
   name: z.string(),
@@ -10,7 +12,7 @@ export const userCleanSchema = z.object({
 
   profile_image: z.string(),
 
-  role:z.enum(UserRole),
+  role: z.enum(userRole),
 });
 
 export type UserCleanSchema = z.infer<typeof userCleanSchema>;
