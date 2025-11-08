@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme, CircularProgress, Divider, Button ,Link} from "@mui/material";
+import { Box, Typography, useTheme, CircularProgress, Divider, Button ,Link, Chip} from "@mui/material";
 import { ColorTokens, tokens } from "../../theme";
 import { useState, useEffect } from 'react';
 import { getDoctorDocuments } from "../../api/utils/getDoctorDocuments.util";
@@ -7,6 +7,10 @@ import z from "zod";
 import { Badge } from "../../components/Badge.component";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'; 
+import { Doctor_Status } from "../../enums/doctorStatus.enum";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import WarningIcon from "@mui/icons-material/Warning";
+import Swal from "sweetalert2";
 
 interface DoctorProfileProps {
   doctorId: string | null;
@@ -17,7 +21,7 @@ const modalStyle = (colors:ColorTokens) => ({
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '90%',   
+  width: '100%',   
   maxWidth: '800px', 
   maxHeight: '85vh', 
   overflowY: 'auto', 
@@ -25,8 +29,6 @@ const modalStyle = (colors:ColorTokens) => ({
   border: `1px solid ${colors.grey[700]}`,
   borderRadius: '8px',
   boxShadow: 24,
-  display: 'flex',
-  alignContent:"center",
   p: 4,
 });
 const documentNames = {
@@ -73,8 +75,163 @@ useEffect(() => {
     
   }, [doctorId]);
 
+
+
+  const handleVerifyDocument = async (documentId: string) => {
+    console.log('hoklaaa');
+    
+    // 3.1: Confirmación con Swal
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Vas a marcar este documento como VERIFICADO.",
+      icon: "warning",
+      showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, verificar",
+      cancelButtonText: "Cancelar",
+      target: document.getElementById('doctor-profile-modal-content'),
+    });
+    
+console.log(result);
+
+    if (!result.isConfirmed) {
+      return; 
+    }
+    try {
+      await new Promise(res => setTimeout(res, 1000));
+      setDoctor((currentDoctor) => {
+        if (!currentDoctor) return null;
+
+        const updatedDocuments = currentDoctor.documents.map((doc) => {
+          if (doc.id === documentId) {
+            return { ...doc, verified: true }; // ¡El cambio!
+          }
+          return doc;
+        });
+
+        return {
+          ...currentDoctor,
+          documents: updatedDocuments,
+        };
+      });
+
+      Swal.fire({
+        title: "¡Verificado!", 
+        text: "El documento ha sido marcado.", 
+        icon: "success",
+        background: colors.primary[400],
+        color: colors.grey[100],
+      });
+
+    } catch (error) {
+      // (Manejo de error de la API)
+      Swal.fire("Error", "No se pudo verificar el documento.", "error");
+    }
+  };
+  // --- 4. LÓGICA DE BOTONES ---
+const updateDoctorStatusApi = async (
+    id: string,
+    newStatus: Doctor_Status,
+    reason: string | null = null
+  ) => {
+    // (Aquí iría tu 'api.patch(`/admin/doctor/${id}/status`, ...)')
+    console.log("Simulando API:", { id, newStatus, reason });
+    await new Promise((res) => setTimeout(res, 1000));
+    // Simulamos que la API nos devuelve el doctor actualizado
+    return {
+      ...doctor!,
+      status: newStatus,
+      rejectedReason: reason,
+    };
+  };
+
+
+  const areAllDocumentsVerified = (): boolean => {
+    if (!doctor || !doctor.documents) return false;
+    // .every() chequea si CADA documento cumple la condición
+    return doctor.documents.every((doc) => doc.verified === true);
+  };
+
+  const handleApprove = async () => {
+    // 1. Validación (Tu idea)
+    if (!areAllDocumentsVerified()) {
+      Swal.fire({
+        title: "Faltan Documentos",
+        text: "No podés aprobar un doctor sin verificar todos sus documentos primero.",
+        icon: "error",
+        target: document.getElementById("doctor-profile-modal-content"), // (Para que se vea sobre el modal)
+      });
+      return;
+    }
+
+    // 2. Confirmación (Tu idea)
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: `Vas a APROBAR al Dr. ${doctor?.fullname}.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, aprobar",
+      cancelButtonText: "Cancelar",
+      target: document.getElementById("doctor-profile-modal-content"),
+    });
+
+    if (!result.isConfirmed) return;
+
+    // 3. Simulación de API
+    try {
+      const updatedDoctor = await updateDoctorStatusApi(
+        doctor!.id,
+        Doctor_Status.ACTIVE
+      );
+      // Actualiza el estado local (como pediste)
+      setDoctor(updatedDoctor); 
+      Swal.fire("¡Aprobado!", "El doctor ha sido activado.", "success");
+    } catch (err) {
+      Swal.fire("Error", (err as Error).message, "error");
+    }
+  };
+
+
+ const handleReject = async () => {
+    // 1. Pedir el motivo (HTML dialog)
+    const { value: reason } = await Swal.fire({
+      title: "Rechazar Doctor",
+      text: `Por favor, escribí el motivo del rechazo para el Dr. ${doctor?.fullname}.`,
+      input: "textarea", // <-- Pide un <textarea>
+      inputPlaceholder: "Ej: El DNI no es legible, la licencia expiró...",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar Rechazo",
+      cancelButtonText: "Cancelar",
+      target: document.getElementById("doctor-profile-modal-content"),
+      // Validación del input de Swal
+      inputValidator: (value) => {
+        if (!value || value.trim().length < 10) {
+          return "El motivo es obligatorio (mínimo 10 caracteres).";
+        }
+      },
+    });
+
+    // 2. Si el usuario escribió un motivo y confirmó
+    if (reason) {
+      // 3. Simulación de API
+      try {
+        const updatedDoctor = await updateDoctorStatusApi(
+          doctor!.id,
+          Doctor_Status.REJECTED,
+          reason // <-- Enviamos el motivo
+        );
+        // Actualiza el estado local
+        setDoctor(updatedDoctor);
+        Swal.fire("Rechazado", "El doctor ha sido rechazado.", "success");
+      } catch (err) {
+        Swal.fire("Error", (err as Error).message, "error");
+      }
+    }
+  };
+
   return (
-    <Box sx={modalStyle(colors)}>
+    <Box sx={modalStyle(colors)} id="doctor-profile-modal-content">
    {isLoading ? (
         <Box sx={{ m: 'auto', }}><CircularProgress color="secondary" /></Box>
       ) : error ? (
@@ -107,10 +264,13 @@ useEffect(() => {
               <Typography variant="h2" color={colors.grey[100]} fontWeight="bold">
                 {(doctor.fullname).toUpperCase()}
               </Typography>
-              <VerifiedUserIcon 
+              {doctor.status===Doctor_Status.ACTIVE && (
+ <VerifiedUserIcon 
               titleAccess="Usuario Verificado" sx={{
                 alignSelf:"center",
               }}/>
+              )}
+             
               </div>
               {(doctor?.specialities && doctor.specialities.length > 0)?(
                 <Box
@@ -160,8 +320,8 @@ Sin especialidades seleccionadas.
        
             <Divider sx={{ borderColor: colors.grey[700] }} />
 
-{/* --- 2. SECCIÓN DE CONTENIDO (CON SCROLL) --- */}
-          <Box sx={{  overflowY: 'auto', flex: 1 }}>
+{/* --- 2. SECCIÓN DOCUMENTOS --- */}
+          <Box sx={{ alignContent:"center",flexDirection:"column", display:"flex"}}>
             
             <Typography variant="h4" color={colors.grey[100]} sx={{  }} gutterBottom>
               Documentos
@@ -190,6 +350,7 @@ Sin especialidades seleccionadas.
                     justifyContent: 'center',
                     p: 2, // Padding interno
                     textAlign: 'center',
+                    position: 'relative', 
                   }}
                 >
                   
@@ -217,31 +378,74 @@ Sin especialidades seleccionadas.
                   {buttonText} 
                 </Button>
 
+                <Box sx={{
+                  position:"absolute",
+                  top:0,
+                  margin:"8px",
+                  left:0,
+                }}>
+                      {doc.verified ? (
+                        // 5. ESTADO VERIFICADO (Verde)
+                        <Chip
+                          icon={<CheckCircleIcon />}
+                          label="Verificado"
+                          color="success"
+                          size="small"
+                        />
+                      ) : (
+                        // 6. ESTADO PENDIENTE (Naranja)
+                        <Button
+                          variant="contained"
+                          sx={{ 
+                            backgroundColor: colors.yellow[600], // Naranja
+                            color: colors.grey[900],
+                            '&:hover': {
+                              backgroundColor: colors.yellow[700],
+                            }
+                          }}
+                          startIcon={<WarningIcon />}
+                          size="small"
+                          onClick={() => handleVerifyDocument(doc.id)}
+                        >
+                          Verificar
+                        </Button>
+                      )}
+                    </Box>
+
                 </Box >
             )
           
 })}
             </Box>
           </Box>
-
+            <Divider sx={{ borderColor: colors.grey[700] }} />
+  {doctor.status === Doctor_Status.PENDING && (
+            <>
+              <Box 
+                sx={{
+                  p: "15px 0px ", // Padding para el footer
+                  display: 'flex',
+                  justifyContent: 'flex-end', // Botones a la derecha
+                  gap: 2, // Espacio entre botones
+                }}
+              >
+                <Button 
+                  variant="contained" 
+                  color="error"
+                  onClick={handleReject} >
+                  Rechazar
+                </Button>
+                <Button 
+                  variant="contained" 
+                  color="secondary" 
+                  onClick={handleApprove}
+                >
+                  Aprobar
+                </Button>
+              </Box>
+            </>
+          )}
           </Box>
-
-          <div style={{
-            position:"absolute",
-            top:0,
-            left:90,
-            padding:"2px"
-          }}>
-            <div style={{
-              display:"flex",
-              gap:5,
-              margin:"2px"
-            }}>
-              <Button/>
-              <Button/>
-            </div>
-
-          </div>
      </>
    ):null}
     </Box>
