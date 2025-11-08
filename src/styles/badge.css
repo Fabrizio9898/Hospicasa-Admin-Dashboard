@@ -1,0 +1,39 @@
+/* ... (tus otros estilos globales) ... */
+
+.badge-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 9999px;
+    cursor: pointer;
+    /* (Podrías querer agregar el hover aquí) */
+    /* &:hover .badge-overlay { ... } */
+}
+
+.badge-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    color: #065f46;
+    background-color: #d1fae5;
+    border-radius: 9999px;
+    transition: color 0.3s ease;
+}
+
+.badge-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4ade80;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+}

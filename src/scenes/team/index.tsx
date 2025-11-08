@@ -71,11 +71,21 @@ const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
       }}
     />
   );
-  const getColorForStatus = (status: string) => {
+ const getColorForStatus = (status: string) => {
+    // Para 'ACTIVE' y 'REJECTED', el color es el mismo en ambos modos
     if (status === Doctor_Status.ACTIVE) return colors.greenAccent[500];
     if (status === Doctor_Status.REJECTED) return colors.redAccent[500];
-    // Asumimos que PENDING usa el amarillo que agregaste
-    return colors.yellow[500] || colors.grey[300]; 
+
+    // --- ¡AQUÍ ESTÁ LA LÓGICA! ---
+    // Si el estado es 'PENDING':
+    if (theme.palette.mode === 'dark') {
+      // MODO OSCURO: Devolvemos el amarillo
+      return colors.yellow[500] || colors.grey[300]; 
+    } else {
+      // MODO CLARO: Devolvemos un color oscuro (negro)
+      // (En tu 'theme.ts', el 'grey[100]' del modo claro es negro)
+      return colors.grey[100]; 
+    }
   };
   const getTextForStatus = (status: Doctor_Status) => {
     if (status === Doctor_Status.ACTIVE) return "Activos";
@@ -89,6 +99,8 @@ const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
       field: 'status',
       headerName: 'Estado',
       width: 220,
+      align: 'center', 
+      
       renderHeader: () => (
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <Typography sx={{ mr: 1, color: colors.grey[100], fontSize: '0.9rem' }}>
@@ -109,7 +121,7 @@ const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
               '&:after': { borderBottomColor: getColorForStatus(filterStatus) },
             }}
             renderValue={(selectedStatus) => (
-              <Box sx={{ display: 'flex', alignItems: 'center' ,gap:1}}>
+              <Box sx={{ display: 'flex', alignItems: 'center',gap:1,}}>
                 {getTextForStatus(selectedStatus)}
                 <StatusCircle color={getColorForStatus(selectedStatus)} />
               </Box>
@@ -131,9 +143,12 @@ const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
         </Box>
       ),
       renderCell: ({ row: { status } }: { row: DoctorPublic }) => (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center',justifyContent:"center",height:"100%" }}>
           <StatusCircle color={getColorForStatus(status)} />
-          <Typography color={getColorForStatus(status)}>
+          <Typography sx={{
+            fontWeight:"bold",
+            textTransform:"uppercase"
+          }} color={getColorForStatus(status)}>
             {status}
           </Typography>
         </Box>

@@ -1,9 +1,12 @@
-import { Box, Typography, useTheme, CircularProgress, Divider, Button } from "@mui/material";
+import { Box, Typography, useTheme, CircularProgress, Divider, Button ,Link} from "@mui/material";
 import { ColorTokens, tokens } from "../../theme";
 import { useState, useEffect } from 'react';
 import { getDoctorDocuments } from "../../api/utils/getDoctorDocuments.util";
 import { DoctorProfile, doctorProfileSchema } from "../../types/doctorProfile.type";
 import z from "zod";
+import { Badge } from "../../components/Badge.component";
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'; 
 
 interface DoctorProfileProps {
   doctorId: string | null;
@@ -22,9 +25,15 @@ const modalStyle = (colors:ColorTokens) => ({
   border: `1px solid ${colors.grey[700]}`,
   borderRadius: '8px',
   boxShadow: 24,
+  display: 'flex',
+  alignContent:"center",
   p: 4,
 });
-
+const documentNames = {
+ "dni_front": "Ver DNI (Frente)",
+ "dni_back": "Ver DNI (Dorso)",
+ "medical_license": "Ver Licencia Médica",
+};
 export const DoctorProfileScene = ({ doctorId }: DoctorProfileProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -67,11 +76,11 @@ useEffect(() => {
   return (
     <Box sx={modalStyle(colors)}>
    {isLoading ? (
-        <Box sx={{ m: 'auto' }}><CircularProgress color="secondary" /></Box>
+        <Box sx={{ m: 'auto', }}><CircularProgress color="secondary" /></Box>
       ) : error ? (
         <Typography color="error" sx={{ m: 'auto' }}>{error}</Typography>
       ) : doctor ? (
-<>     <Box sx={{  display: 'flex', gap: 3 ,flexDirection:"column"}}>
+<>     <Box sx={{  display: 'flex', gap: 3 ,flexDirection:"column",position:"relative"}}>
   <Box sx={{
     display:"flex",
     justifyContent:"center",
@@ -89,16 +98,59 @@ useEffect(() => {
               marginLeft:"15px"
 
             }}>
+              <div style={{
+                display:"flex",
+                gap:10,
+                alignContent:"center",
+
+              }}>
               <Typography variant="h2" color={colors.grey[100]} fontWeight="bold">
                 {(doctor.fullname).toUpperCase()}
               </Typography>
-               <nav className="flex flex-wrap gap-4 mt-2">
-{
+              <VerifiedUserIcon 
+              titleAccess="Usuario Verificado" sx={{
+                alignSelf:"center",
+              }}/>
+              </div>
+              {(doctor?.specialities && doctor.specialities.length > 0)?(
+                <Box
+      component="nav"
+      sx={{
+        display: 'flex',        
+            flexWrap: 'wrap',   
 
+        gap: '10px',        
+             marginTop: '8px',   
+      }}
+    >
+{
+  doctor.specialities.map((speciality) => (
+          <Badge key={speciality.id}><span >{speciality.name}</span></Badge>
+
+  ))
 }
-               </nav>
+               </Box>
+              ):(
+<Typography variant="h5" color={colors.grey[300]} sx={{ mt: 1 }}>
+Sin especialidades seleccionadas.
+              </Typography>
+              )}
+  
               <Typography variant="body1" color={colors.grey[300]} sx={{ mt: 1 }}>
-                Email: {doctor.email}
+                Email:  
+                <Link
+    href={`mailto:${doctor.email}`}
+    sx={{
+      // 3. USA 'sx' PARA DARLE EL COLOR DE TU TEMA
+      color: colors.greenAccent[500], // (Usa un color de "acento" para que parezca un link)
+      textDecoration: 'none', // (Opcional: saca el subrayado)
+      '&:hover': {
+        textDecoration: 'underline', // (Opcional: se subraya al pasar el mouse)
+      }
+    }}
+  >
+    {doctor.email}
+  </Link>
               </Typography>
               <Typography variant="body1" color={colors.grey[300]}>
                 DNI: {doctor.dni}
@@ -109,25 +161,87 @@ useEffect(() => {
             <Divider sx={{ borderColor: colors.grey[700] }} />
 
 {/* --- 2. SECCIÓN DE CONTENIDO (CON SCROLL) --- */}
-          <Box sx={{ p: 3, overflowY: 'auto', flex: 1 }}>
+          <Box sx={{  overflowY: 'auto', flex: 1 }}>
             
-            <Typography variant="h4" color={colors.grey[100]} gutterBottom>
-              Especialidades
-            </Typography>
-            {/* (Aquí iría un .map() de las especialidades) */}
-            <Typography>Especialidad 1, Especialidad 2</Typography>
-
-            <Typography variant="h4" color={colors.grey[100]} sx={{ mt: 4 }} gutterBottom>
+            <Typography variant="h4" color={colors.grey[100]} sx={{  }} gutterBottom>
               Documentos
             </Typography>
-            {/* (Aquí iría un .map() de los 'doctor.documents' 
-                cuando los pidas en el fetch) */}
-            <Button variant="outlined" sx={{ mr: 1 }}>Ver DNI (PDF)</Button>
-            <Button variant="outlined">Ver Licencia (PDF)</Button>
-            {/* (Agregá más contenido aquí para probar el scroll) */}
+            <Box sx={{ display: 'flex', flexDirection: 'row',gap:2 , flexWrap:"wrap" }}>
+            {doctor.documents.map((doc) => {
+              const buttonText = documentNames[doc.type as keyof typeof documentNames] || `Ver ${doc.type}`;
+              
+              return(
+ <Box 
+                  key={doc.id} 
+                  sx={{
+                    width: 220, // Ancho fijo
+                    height: 150, // Alto fijo
+                    
+                    // 2. El "Fondo Borroso" (frosted glass)
+                    backgroundColor: 'rgba(0, 0, 0, 0.25)', 
+                    backdropFilter: 'blur(4px)',
+                    
+                    border: `1px solid ${colors.grey[700]}`,
+                    borderRadius: 2, // Bordes redondeados
+                    
+                    // 3. Centrar el botón (hijo)
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    p: 2, // Padding interno
+                    textAlign: 'center',
+                  }}
+                >
+                  
+                  {/* --- 4. EL BOTÓN (con icono y texto) --- */}
+                <Button 
+                  key={doc.id}
+                  variant="outlined" 
+                  color="secondary"
+                  href={doc.url}              
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  startIcon={<VisibilityOutlinedIcon />}
+                  sx={{
+                  
+                 transition: theme.transitions.create(['background-color', 'color', 'border-color'], {
+      duration: theme.transitions.duration.short, // (Unos 250ms)
+    }),
+
+ '&:hover': {
+ backgroundColor: colors.greenAccent[500],
+ color: colors.primary[500],
+            borderColor: colors.greenAccent[500],
+ },}}
+                >
+                  {buttonText} 
+                </Button>
+
+                </Box >
+            )
+          
+})}
+            </Box>
           </Box>
 
           </Box>
+
+          <div style={{
+            position:"absolute",
+            top:0,
+            left:90,
+            padding:"2px"
+          }}>
+            <div style={{
+              display:"flex",
+              gap:5,
+              margin:"2px"
+            }}>
+              <Button/>
+              <Button/>
+            </div>
+
+          </div>
      </>
    ):null}
     </Box>
