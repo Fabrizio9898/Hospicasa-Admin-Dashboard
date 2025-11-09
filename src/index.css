@@ -1,18 +1,28 @@
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+@import "tailwindcss";
 
 html,
 body,
 #root,
-.app,
-.content {
-  height: 100%;
+.app{
+  height: 100vh;
   width: 100%;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Onest Variable", sans-serif;
+  --spacing: .25rem;
 }
 
 .app {
   display: flex;
   position: relative;
+}
+
+.content {
+  flex-grow: 1;
+  /* Le dice que "crezca" y ocupe el espacio sobrante */
+  min-width: 0;
+  /* ¡La clave! Permite que se encoja si no hay espacio */
+  height: 100%;
+  overflow-y: auto;
+  /* Pone scroll vertical SI el contenido de la página es largo */
 }
 
 ::-webkit-scrollbar {

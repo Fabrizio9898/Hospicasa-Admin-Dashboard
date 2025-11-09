@@ -1,0 +1,36 @@
+.header-profile{
+position: sticky;
+display: flex;
+flex-direction: column;
+gap: 1rem;
+border-bottom-width: 1px;
+border-color: 'divider';
+padding: 1rem;
+}
+
+.button-accent {
+border: solid .0625rem rgb(36, 36, 36);
+color: currentColor;
+background-color:rgb(229 126 208) ;
+cursor: pointer;
+border-radius: .25rem;
+justify-content: center;
+align-items: center;
+gap: .5rem;
+padding: .75rem 1rem;
+font-family: inherit;
+font-size: 1rem;
+line-height: 1.4;
+text-decoration: none;
+display: inline-flex;
+transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;}
+.button-accent:hover {
+    transform: translateY(-2px);
+   box-shadow: 6px 6px 0 0 #000000;
+}
+
+@media (min-width: 48rem) {
+    .md\:p-8 {
+        padding: calc(var(--spacing) * 8);
+    }
+}

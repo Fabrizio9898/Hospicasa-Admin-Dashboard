@@ -1,0 +1,67 @@
+.topbar-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px;
+    /* (p: 2) */
+}
+
+.profile-icon-container {
+    position: relative;
+    /* El "Padre" */
+}
+
+.icon-button {
+    /* (Reseteo de botón de MUI) */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    color: inherit;
+    /* Hereda el color del Topbar */
+}
+
+.icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.profile-dropdown {
+    position: absolute;
+    /* El "Hijo" */
+    top: 110%;
+    right: 0;
+    width: 200px;
+    background-color: #1F2A40;
+    /* (Tu color 'primary[400]') */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    z-index: 1000;
+    border: 1px solid #4a5568;
+}
+
+/* --- 👇 ESTA ES LA LÓGICA QUE VISTE 👇 --- */
+.dropdown-item {
+    display: block;
+    /* El <a> ocupa toda la fila */
+    padding: 10px 15px;
+    border-radius: 6px;
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #4a5568;
+}
+
+.icon-span {
+    /* 'inline-block' permite que se alinee con el texto 
+    (como una palabra) pero que puedas darle tamaño.
+  */
+    display: inline-block;
+    margin-right: 10px;
+    /* Espacio entre el ícono y el texto */
+    vertical-align: middle;
+    /* Alinea el ícono con el texto */
+}

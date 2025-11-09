@@ -37,7 +37,7 @@ const Dashboard = () => {
     <Box sx={{ m: "20px" }}>
       {/* HEADER */}
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Header title="DASHBOARD" subtitle="Bienvenido a tu panel de administración" />
+        <Header title="DASHBOARD" subtitle="Bienvenido a tu panel de administración"  />
         {/* (Botón de reportes) */}
       </Box>
 

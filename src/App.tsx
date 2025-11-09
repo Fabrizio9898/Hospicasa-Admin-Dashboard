@@ -9,6 +9,7 @@ import DashboardLayout from "./DashboardLayout";
 import { CssBaseline,ThemeProvider  } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { useAuthStore } from "./store/auth.store";
+import SettingsLayout from "./scenes/settings/settings.scene";
 
 
 
@@ -54,6 +55,7 @@ function App() {
         }
       >
           <Route path="/" element={<Dashboard />} />
+          <Route path="/profile" element={<SettingsLayout />} />
           <Route path="/team" element={<Team/>} />
           <Route path="/invoices" element={<Invoices />} />
           <Route path="/form" element={<AdminRegister />} />

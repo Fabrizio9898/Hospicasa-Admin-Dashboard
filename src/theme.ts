@@ -172,7 +172,7 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
     },
     typography: {
       // (Tu tipografía... todo bien)
-      fontFamily: [, "Onest Variable", "Source Sans Pro", "sans-serif"].join(
+      fontFamily: ["Onest Variable", "Source Sans Pro", "sans-serif"].join(
         ","
       ),
       fontSize: 12,
