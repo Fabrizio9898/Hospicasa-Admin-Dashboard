@@ -23,7 +23,7 @@ import { ModalView } from '../../components/Modal';
 import DoctorProfileScene from '../doctor-profile/doctorProfile.scene';
 
 
-const Team = () => {
+const DoctorsPanel = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { doctorsData, isLoading, error, fetchDoctors } = useDoctorStore();
@@ -279,4 +279,4 @@ const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
   );
 };
 
-export default Team;
+export default DoctorsPanel;

@@ -6,16 +6,17 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useAuthStore } from "../../store/auth.store";
 import { UserRole } from "../../enums/userRole.enum";
 import { Link, useLocation } from "react-router-dom";
-
-
-
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 interface ItemProps {
   title: string;
   to: string;
@@ -136,44 +137,75 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Data
+              Gestion
             </Typography>
+
             <Item
               title="Doctores"
-              to="/team"
+              to="/panel-doctores"
               icon={<PeopleOutlinedIcon />}
               
             />
-           
-            <Item
-              title="Invoices Balances"
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
-        
-              
-            />
 
+            <Item
+    title="Especialidades"
+    to="/gestion/especialidades" 
+    icon={<CategoryOutlinedIcon />}
+  />
             <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Team
+              Operaciones
             </Typography>
-            <Item
-              title="Profile Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-        
-              
-            />
-            <Item
-              title="FAQ Page"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
-        
-              
-            />
+           <Item
+    title="Calendario General"
+    to="/calendario" 
+    icon={<CalendarMonthOutlinedIcon />}
+  />
+  <Item
+    title="Reporte de Pagos"
+    to="/finanzas/pagos" 
+    icon={<PaymentOutlinedIcon />}
+  />
+
+  <Typography
+    variant="h6"
+    color={colors.grey[300]}
+    sx={{ m: "15px 0 5px 20px" }}
+  >
+    Soporte
+  </Typography>
+  <Item
+    title="Reporte de Errores"
+    to="/soporte/bugs" 
+    icon={<BugReportOutlinedIcon />}
+  />
+
+<Typography
+    variant="h6"
+    color={colors.grey[300]}
+    sx={{ m: "15px 0 5px 20px" }}
+  >
+    Plataforma
+  </Typography>
+  <Item
+    title="Gestión de Staff"
+    to="/plataforma/staff" 
+    icon={<AdminPanelSettingsOutlinedIcon />}
+  />
+  <Item
+    title="Configuración"
+    to="/settings" 
+    icon={<SettingsOutlinedIcon />}
+  />
+  <Item
+    title="FAQ"
+    to="/faq" 
+    icon={<QuestionAnswerIcon />}
+  />
+
           </Box>
         </Menu>
       </ProSidebar>

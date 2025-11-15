@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./scenes/login/LoginPage";
 import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/team";
+import DoctorPanel from "./scenes/doctors";
 import Invoices from "./scenes/invoices";
 import AdminRegister from "./scenes/form";
 import FAQ from "./scenes/faq";
@@ -60,10 +60,11 @@ function App() {
  
   <Route index element={<UpdateProfileComponent />} /> 
   <Route path="profile" element={<UpdateProfileComponent />} />
-  <Route path="equipo" element={<Team />} />
+  <Route path="equipo" element={<></>} />
   <Route path="pagos" element={<></>} />
   <Route path="password" element={<></>} />
 </Route>          
+      <Route path="/panel-doctores" element={<DoctorPanel />} />
       <Route path="/invoices" element={<Invoices />} />
       <Route path="/form" element={<AdminRegister />} />
       <Route path="/faq" element={<FAQ />} />
