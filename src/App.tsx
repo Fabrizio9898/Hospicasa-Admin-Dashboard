@@ -57,11 +57,12 @@ function App() {
       >
           <Route path="/" element={<Dashboard />} />
 <Route path="/settings" element={<SettingsLayout />}>
-  {/* Estas son las páginas que se renderizan DENTRO del Outlet de SettingsLayout */}
-  <Route index element={<UpdateProfileComponent />} /> {/* La página por defecto */}
+ 
+  <Route index element={<UpdateProfileComponent />} /> 
+  <Route path="profile" element={<UpdateProfileComponent />} />
   <Route path="equipo" element={<Team />} />
-  {/* <Route path="pagos" element={<PagosPage />} />
-  <Route path="password" element={<PasswordPage />} /> */}
+  <Route path="pagos" element={<></>} />
+  <Route path="password" element={<></>} />
 </Route>          
       <Route path="/invoices" element={<Invoices />} />
       <Route path="/form" element={<AdminRegister />} />

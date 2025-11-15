@@ -10,6 +10,27 @@ const SettingsLayout = () => {
   const colors = tokens(theme.palette.mode);
   const location = useLocation(); 
   const currentTab = location.pathname;
+const tabStyle = {
+fontFamily: theme.typography.fontFamily ?? "sans-serif",
+    fontWeight: 500,
+    textTransform: 'none',    
+    minWidth: 'auto',          
+    borderRadius: '9999px',      
+    paddingX: '0.75rem',      
+    paddingY: '0.5rem',        
+    border: '1px solid transparent', 
+        color: colors.grey[100],
+    '&:hover': {
+      borderColor: theme.palette.divider ,
+      color: colors.grey[100],
+    },
+    '&.Mui-selected': {
+      backgroundColor: '#FFFFFF',
+      color: 'rgb(36, 36, 36)', 
+      fontWeight: 700, 
+borderColor: colors.grey[200],
+    }
+  };
 
   return (
     // CAMBIO: Reemplazamos el <div> con <Stack> (un flexbox vertical por defecto)
@@ -90,70 +111,59 @@ const SettingsLayout = () => {
             </Button>
           </Box>
         </Stack>
-        <Box sx={{
-        gap:".25rem * 3"
-        }} >
-          <Tabs
-            value={currentTab}
-            variant="scrollable"
-            scrollButtons="auto"
-            allowScrollButtonsMobile
-            aria-label="pestañas de configuración"
-          >
-            <Tab
-              label="Configuración"
-              component={Link}
-              to="/settings"
-              value="/settings"
-              sx={{
-                padding:"0"
-
-              }} // El 'value' debe coincidir con el 'to'
-            />
-
-             <Tab
-              label="Perfil"
-              component={Link}
-              to="/profile"
-              value="/settings/profile"
-              sx={{
-                padding:"0"
-
-              }} // El 'value' debe coincidir con el 'to'
-            />
-
-            <Tab
-              label="Equipo"
-              component={Link}
-              to="/settings/equipo" // Asumo esta ruta
-              value="/settings/equipo"
-               sx={{
-                padding:"0"
-                
-              }}
-            />
-            <Tab
-              label="Pagos"
-              component={Link}
-              to="/settings/pagos" // Asumo esta ruta
-              value="/settings/pagos"
-               sx={{
-                padding:"0"
-                
-              }}
-            />
-            <Tab
-              label="Contraseña"
-              component={Link}
-              to="/settings/password" // Asumo esta ruta
-              value="/settings/password"
-               sx={{
-                padding:"0"
-                
-              }}
-            />
-          </Tabs>
-        </Box>
+    
+        <Tabs
+          value={currentTab}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+          aria-label="pestañas de configuración"
+          slotProps={{
+            indicator: { sx: { display: 'none' } } // Oculta línea azul
+          }}
+          sx={{
+            '& .MuiTabs-flexContainer': { // Agrega gap
+              gap: '12px',
+            }
+          }}
+        >
+          {/* --- 4. APLICAMOS EL MISMO ESTILO A TODOS --- */}
+          <Tab
+            label="Configuración"
+            component={Link}
+            to="/settings"
+            value="/settings"
+            sx={tabStyle} 
+          />
+          <Tab
+            label="Perfil"
+            component={Link}
+            to="/settings/profile"
+            value="/settings/profile"
+            sx={tabStyle}
+          />
+          <Tab
+            label="Equipo"
+            component={Link}
+            to="/settings/equipo"
+            value="/settings/equipo"
+            sx={tabStyle}
+          />
+          <Tab
+            label="Pagos"
+            component={Link}
+            to="/settings/pagos"
+            value="/settings/pagos"
+            sx={tabStyle}
+          />
+          <Tab
+            label="Contraseña"
+            component={Link}
+            to="/settings/password"
+            value="/settings/password"
+            sx={tabStyle}
+          />
+        </Tabs>
       </Box>
       <Box p={{ xs: 2, md: 4 }}>
         <Outlet /> 
