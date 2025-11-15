@@ -60,7 +60,7 @@ useEffect(() => {
           <div ref={dropdownRef} className="profile-dropdown">
             
             {/* 4. EL ITEM (tal como lo viste) */}
-            <Link role="menuitem" to="/profile" className="dropdown-item">
+            <Link role="menuitem" to="/settings" className="dropdown-item">
               <span className="icon-span">
                 {/* (Aquí pondrías tu ícono) */}
                 <HomeOutlinedIcon fontSize="small" /> 

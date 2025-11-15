@@ -10,6 +10,7 @@ import { CssBaseline,ThemeProvider  } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { useAuthStore } from "./store/auth.store";
 import SettingsLayout from "./scenes/settings/settings.scene";
+import UpdateProfileComponent from "./components/UpdateProfile.component";
 
 
 
@@ -55,11 +56,16 @@ function App() {
         }
       >
           <Route path="/" element={<Dashboard />} />
-          <Route path="/profile" element={<SettingsLayout />} />
-          <Route path="/team" element={<Team/>} />
-          <Route path="/invoices" element={<Invoices />} />
-          <Route path="/form" element={<AdminRegister />} />
-          <Route path="/faq" element={<FAQ />} />
+<Route path="/settings" element={<SettingsLayout />}>
+  {/* Estas son las páginas que se renderizan DENTRO del Outlet de SettingsLayout */}
+  <Route index element={<UpdateProfileComponent />} /> {/* La página por defecto */}
+  <Route path="equipo" element={<Team />} />
+  {/* <Route path="pagos" element={<PagosPage />} />
+  <Route path="password" element={<PasswordPage />} /> */}
+</Route>          
+      <Route path="/invoices" element={<Invoices />} />
+      <Route path="/form" element={<AdminRegister />} />
+      <Route path="/faq" element={<FAQ />} />
       </Route>
 
     </Routes>

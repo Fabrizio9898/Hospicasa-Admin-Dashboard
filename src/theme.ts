@@ -10,6 +10,17 @@ export const tokens = (mode: PaletteMode) => ({
   ...(mode === "dark"
     ? {
         yellow: yellow,
+        violetAccent: {
+          100: "#e6e0f5", // Un violeta muy claro
+          200: "#cdc1ea",
+          300: "#b4a2df",
+          400: "#9b83d4",
+          500: "#8264c9", // Tu violeta principal para modo oscuro
+          600: "#6850a1",
+          700: "#4e3c79",
+          800: "#342851",
+          900: "#1a1428", // Un violeta muy oscuro
+        },
         // (Tu objeto de colores dark... todo esto está bien)
         grey: {
           100: "#e0e0e0",
@@ -68,7 +79,18 @@ export const tokens = (mode: PaletteMode) => ({
         },
       }
     : {
-        yellow: yellow, // (Tu objeto de colores light... todo esto está bien)
+        yellow: yellow,
+        violetAccent: {
+          100: "#1a1428", 
+          200: "#342851",
+          300: "#4e3c79",
+          400: "#6850a1",
+          500: "#7A52CC", 
+          600: "#8264c9",
+          700: "#9b83d4",
+          800: "#b4a2df",
+          900: "#cdc1ea",
+        }, 
         grey: {
           100: "#141414",
           200: "#292929",

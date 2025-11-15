@@ -17,7 +17,7 @@ interface DoctorProfileProps {
 }
 
 const modalStyle = (colors:ColorTokens) => ({ 
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -30,7 +30,8 @@ const modalStyle = (colors:ColorTokens) => ({
   borderRadius: '8px',
   boxShadow: 24,
   p: 4,
-});
+}) as const;
+
 const documentNames = {
  "dni_front": "Ver DNI (Frente)",
  "dni_back": "Ver DNI (Dorso)",
