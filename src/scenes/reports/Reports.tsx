@@ -4,119 +4,82 @@ import {
   Typography,
   useTheme,
   Grid,
-  Card,
-  CardContent,
   Chip,
   Button,
   Autocomplete,
   TextField,
-  Avatar,
-  Stack,
   ToggleButtonGroup,
-  ToggleButton
+  ToggleButton,
+  CircularProgress // <--- Agregamos esto para el loading
 } from '@mui/material';
 import {
-  BugReport,
   Person,
   MedicalServices,
-  Warning,
-  CheckCircle,
-  AccessTime,
   ExpandMore
 } from '@mui/icons-material';
-import { tokens } from '../../theme'; // Asumo que tienes esto configurado
+import { tokens } from '../../theme';
 import Header from '../../components/Header';
+import { TicketCard } from '../../components/ticketCard.component';
+import { TicketCategory } from '../../enums/tickets/ticketCategory.enum';
+import { UserRole } from '../../enums/userRole.enum';
+import { Ticket } from '../../types/ticket.type';
+import { useTicketsInfiniteQuery } from '../../hooks/useTickets.hook';
 
-// --- 1. ENUMS (Simulando tu Backend) ---
-export enum TicketCategory {
-  BOOKING_ISSUE = 'Problema Turno',
-  PAYMENT_ISSUE = 'Problema Pago',
-  TECHNICAL_ISSUE = 'Falla Técnica',
-  ACCOUNT_ISSUE = 'Cuenta/Login',
-  REPORT_USER = 'Reportar Usuario',
-  OTHER = 'Otro',
-}
 
-export enum TicketPriority {
-  URGENT = 'Urgente',
-  HIGH = 'Alta',
-  MEDIUM = 'Media',
-  LOW = 'Baja',
-}
+type RoleFilter = UserRole | 'ALL';
 
-export enum TicketStatus {
-  OPEN = 'Abierto',
-  IN_PROGRESS = 'En Proceso',
-  RESOLVED = 'Resuelto',
-}
-
-export enum UserRole {
-  DOCTOR = 'Doctor',
-  PATIENT = 'Paciente',
-}
-
-// --- 2. MOCK DATA (Datos Falsos) ---
-const generateMockReports = (count: number) => {
-  return Array.from({ length: count }).map((_, i) => ({
-    id: `TICKET-${1000 + i}`,
-    user: {
-      name: i % 2 === 0 ? `Dr. House ${i}` : `Paciente Pepe ${i}`,
-      role: i % 2 === 0 ? UserRole.DOCTOR : UserRole.PATIENT,
-      image: null,
-    },
-    category: Object.values(TicketCategory)[i % Object.values(TicketCategory).length],
-    priority: Object.values(TicketPriority)[i % Object.values(TicketPriority).length],
-    status: TicketStatus.OPEN,
-    subject: i % 2 === 0 ? 'El paciente no se presentó' : 'No puedo procesar el pago',
-    description: 'He estado esperando en la sala de video por mas de 15 minutos y nadie aparece. Solicito asistencia inmediata.',
-    date: 'Hace 2 horas'
-  }));
-};
-
-const ALL_REPORTS = generateMockReports(20); // Generamos 20 reportes falsos
-
-// --- 3. COMPONENTE PRINCIPAL ---
+// --- COMPONENTE PRINCIPAL ---
 export const Reports = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   // --- ESTADOS DE FILTROS ---
   const [selectedCategories, setSelectedCategories] = useState<TicketCategory[]>([]);
-  const [selectedRole, setSelectedRole] = useState<UserRole | 'ALL'>('ALL');
-  
-  // --- ESTADO DE PAGINACIÓN (Simulada) ---
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [selectedRole, setSelectedRole] = useState<RoleFilter>('ALL');
 
-  // --- LÓGICA DE FILTRADO ---
-  const filteredReports = useMemo(() => {
-    return ALL_REPORTS.filter((report) => {
-      // 1. Filtro por Categoría (Si el array está vacío, muestra todos)
-      const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(report.category);
-      
-      // 2. Filtro por Rol
-      const matchRole = selectedRole === 'ALL' || report.user.role === selectedRole;
+  // --- ESTADOS DEL MODAL (Sin cambios) ---
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null); // Tipado correctamente
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-      return matchCategory && matchRole;
-    });
-  }, [selectedCategories, selectedRole]);
+  // --- 1. INTEGRACIÓN DE REACT QUERY ---
+  // El hook se encarga de re-hacer la petición cuando cambian categories o role
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    error 
+  } = useTicketsInfiniteQuery({
+    categories: selectedCategories,
+    role: selectedRole
+  });
 
-  // --- DATOS A MOSTRAR (Recortados por "Load More") ---
-  const displayedReports = filteredReports.slice(0, visibleCount);
+  // --- 2. APLANAR LA DATA ---
+  // React Query devuelve: { pages: [{data: [t1, t2], meta:...}, {data: [t3, t4]...}] }
+  // Necesitamos convertirlo a: [t1, t2, t3, t4]
+  const allTickets = useMemo(() => {
+    if (!data) return [];
+    return data.pages.flatMap((page) => page.data);
+  }, [data]);
 
   // --- HANDLERS ---
+  
+  // Ahora cargar más es simplemente llamar a la función del hook
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 6);
+    fetchNextPage();
   };
 
-  // --- HELPERS DE UI ---
-  const getPriorityColor = (priority: TicketPriority) => {
-    switch (priority) {
-      case TicketPriority.URGENT: return colors.redAccent[500];
-      case TicketPriority.HIGH: return colors.redAccent[400];
-      case TicketPriority.MEDIUM: return colors.blueAccent[500];
-      case TicketPriority.LOW: return colors.greenAccent[500];
-      default: return colors.grey[100];
-    }
+  const handleViewDetails = (ticket: unknown) => {
+    // Hacemos cast a Ticket porque sabemos que viene del hook tipado
+    setSelectedTicket(ticket as Ticket); 
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedTicket(null);
   };
 
   return (
@@ -135,7 +98,7 @@ export const Reports = () => {
         alignItems="center"
         justifyContent="space-between"
       >
-        {/* 1. FILTRO MULTI-SELECT (Estilo Skills) */}
+        {/* 1. FILTRO MULTI-SELECT */}
         <Autocomplete
           multiple
           id="tags-filled"
@@ -143,6 +106,7 @@ export const Reports = () => {
           value={selectedCategories}
           onChange={(event, newValue) => {
             setSelectedCategories(newValue);
+            // React Query detecta el cambio y recarga automáticamente
           }}
           freeSolo={false}
           renderValue={(value: readonly TicketCategory[], getTagProps) =>
@@ -170,7 +134,7 @@ export const Reports = () => {
           sx={{ flex: 1, minWidth: '300px' }}
         />
 
-        {/* 2. FILTRO DE ROL (Toggle Buttons) */}
+        {/* 2. FILTRO DE ROL */}
         <ToggleButtonGroup
           value={selectedRole}
           exclusive
@@ -198,99 +162,61 @@ export const Reports = () => {
         </ToggleButtonGroup>
       </Box>
 
-      {/* --- GRID DE REPORTES (3 COLUMNAS) --- */}
-      <Grid container spacing={3}>
-        {displayedReports.map((report) => (
-          <Grid  size={{xs:12, sm:6, md:4}} key={report.id}>
-            <Card 
-              sx={{ 
-                bgcolor: colors.primary[400], 
-                borderLeft: `6px solid ${getPriorityColor(report.priority)}`, // Borde de color según prioridad
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}
-            >
-              <CardContent>
-                {/* Cabecera de la Card */}
-                <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={2}>
-                  <Chip 
-                    label={report.priority} 
-                    size="small" 
-                    sx={{ 
-                      bgcolor: getPriorityColor(report.priority), 
-                      color: '#fff', 
-                      fontWeight: 'bold',
-                      height: '20px',
-                      fontSize: '0.7rem'
-                    }} 
-                  />
-                  <Typography variant="caption" color={colors.grey[300]}>
-                    {report.date}
-                  </Typography>
-                </Stack>
-
-                {/* Título y Categoría */}
-                <Typography variant="h5" fontWeight="bold" color={colors.grey[100]} gutterBottom>
-                  {report.category}
-                </Typography>
-                
-                <Typography variant="h6" color={colors.greenAccent[400]} mb={1}>
-                  {report.subject}
-                </Typography>
-
-                <Typography variant="body2" color={colors.grey[300]} mb={2} sx={{
-                   display: '-webkit-box',
-                   overflow: 'hidden',
-                   WebkitBoxOrient: 'vertical',
-                   WebkitLineClamp: 3, // Cortar texto en 3 lineas
-                }}>
-                  {report.description}
-                </Typography>
-
-                {/* Footer de la Card: Usuario */}
-                <Box display="flex" alignItems="center" mt={2} pt={2} borderTop={`1px solid ${colors.primary[500]}`}>
-                   <Avatar sx={{ bgcolor: colors.blueAccent[500], width: 30, height: 30, mr: 1 }}>
-                      {report.user.name[0]}
-                   </Avatar>
-                   <Box>
-                      <Typography variant="subtitle2" fontWeight="bold">
-                        {report.user.name}
-                      </Typography>
-                      <Typography variant="caption" color={colors.greenAccent[500]}>
-                        {report.user.role}
-                      </Typography>
-                   </Box>
-                </Box>
-
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* --- BOTÓN CARGAR MÁS --- */}
-      {visibleCount < filteredReports.length && (
-        <Box display="flex" justifyContent="center" mt={4}>
-          <Button 
-            variant="contained" 
-            color="secondary" 
-            size="large" 
-            startIcon={<ExpandMore />}
-            onClick={handleLoadMore}
-            sx={{ fontWeight: 'bold', padding: '10px 40px' }}
-          >
-            Cargar Más Reportes
-          </Button>
-        </Box>
-      )}
-
-      {filteredReports.length === 0 && (
-         <Box display="flex" justifyContent="center" mt={4}>
-            <Typography variant="h5" color={colors.grey[300]}>No hay reportes con estos filtros.</Typography>
+      {/* --- ESTADO DE ERROR --- */}
+      {isError && (
+         <Box display="flex" justifyContent="center" mt={4} mb={4}>
+            <Typography color="error" variant="h6">
+               Error al cargar reportes: {error?.message || "Intente nuevamente."}
+            </Typography>
          </Box>
       )}
+
+      {/* --- ESTADO DE CARGA INICIAL (Spinner grande) --- */}
+      {isLoading ? (
+         <Box display="flex" justifyContent="center" mt={10}>
+            <CircularProgress color="secondary" size={60} />
+         </Box>
+      ) : (
+        <>
+          {/* --- GRID DE REPORTES --- */}
+          <Grid container spacing={3}>
+            {allTickets.map((report) => (
+              <TicketCard 
+                key={report.id} 
+                report={report} 
+                onViewDetails={handleViewDetails} 
+              />
+            ))}
+          </Grid>
+
+          {/* --- MENSAJE VACÍO --- */}
+          {allTickets.length === 0 && !isError && (
+              <Box display="flex" justifyContent="center" mt={4}>
+                <Typography variant="h5" color={colors.grey[300]}>No hay reportes con estos filtros.</Typography>
+              </Box>
+          )}
+
+          {/* --- BOTÓN CARGAR MÁS --- */}
+          {hasNextPage && (
+            <Box display="flex" justifyContent="center" mt={4} mb={4}>
+              <Button 
+                variant="contained" 
+                color="secondary" 
+                size="large" 
+                // Deshabilitamos si ya está cargando la siguiente página
+                disabled={isFetchingNextPage} 
+                startIcon={isFetchingNextPage ? <CircularProgress size={20} color="inherit"/> : <ExpandMore />}
+                onClick={handleLoadMore}
+                sx={{ fontWeight: 'bold', padding: '10px 40px' }}
+              >
+                {isFetchingNextPage ? 'Cargando...' : 'Cargar Más Reportes'}
+              </Button>
+            </Box>
+          )}
+        </>
+      )}
+
+      {/* <TicketModal open={isModalOpen} ticket={selectedTicket} onClose={handleCloseModal} /> */}
 
     </Box>
   );
