@@ -2,7 +2,6 @@ import { Box, Typography, useTheme, Button, Stack, Tabs, Tab } from "@mui/materi
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { tokens } from "../../theme";
 import { Theme } from '@mui/material/styles';
-import { useState } from "react"; // Necesario para los Tabs
 
 
 const SettingsLayout = () => {
@@ -86,9 +85,7 @@ borderColor: colors.grey[200],
               sx={{
                 bgcolor: 'rgb(229 126 208)',
                 color: 'rgb(36, 36, 36)',
-                border: (theme: Theme) => theme.palette.mode === 'light' // <-- EL BORDE
-                  ? '1px solid rgb(36, 36, 36)'
-                  : `1px solid ${tokens('dark').grey[200]}`,
+                border: '1px solid rgb(36, 36, 36)',
                 borderRadius: '0.25rem',
                 gap: '0.5rem',
                 padding: '0.75rem 1rem',
@@ -102,7 +99,7 @@ borderColor: colors.grey[200],
                   boxShadow: (theme: Theme) =>
                     theme.palette.mode === 'light'
                       ? '6px 6px 0 0 #000000'
-                      : `6px 6px 0 0 ${tokens('dark').grey[200]}`,
+                      : `6px 6px 0 0 ${tokens('dark').grey[100]}`,
                   bgcolor: 'rgb(229 126 208)',
                 },
               }}

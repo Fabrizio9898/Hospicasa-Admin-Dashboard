@@ -23,7 +23,7 @@ export const tokens = (mode: PaletteMode) => ({
         },
         // (Tu objeto de colores dark... todo esto está bien)
         grey: {
-          100: "#e0e0e0",
+          100: "#ffffff",
           200: "#c2c2c2",
           300: "#a3a3a3",
           400: "#858585",

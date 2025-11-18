@@ -179,7 +179,7 @@ const Sidebar = () => {
   </Typography>
   <Item
     title="Reporte de Errores"
-    to="/soporte/bugs" 
+    to="/soporte" 
     icon={<BugReportOutlinedIcon />}
   />
 

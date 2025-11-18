@@ -11,6 +11,7 @@ import { ColorModeContext, useMode } from "./theme";
 import { useAuthStore } from "./store/auth.store";
 import SettingsLayout from "./scenes/settings/settings.scene";
 import UpdateProfileComponent from "./components/UpdateProfile.component";
+import { Reports } from "./scenes/reports/Reports";
 
 
 
@@ -68,6 +69,7 @@ function App() {
       <Route path="/invoices" element={<Invoices />} />
       <Route path="/form" element={<AdminRegister />} />
       <Route path="/faq" element={<FAQ />} />
+      <Route path="/soporte" element={<Reports />} />
       </Route>
 
     </Routes>

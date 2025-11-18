@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Typography,
@@ -17,22 +17,31 @@ import {
 import { tokens } from '../../theme';
 import Header from '../../components/Header';
 import { Doctor_Status } from '../../enums/doctorStatus.enum';
-import { useDoctorStore } from '../../store/doctorData.store';
 import { DoctorPublic } from '../../types/doctor.type';
 import { ModalView } from '../../components/Modal';
 import DoctorProfileScene from '../doctor-profile/doctorProfile.scene';
+import { useDoctorsQuery } from '../../hooks/useDoctorQuery.hook';
 
 
 const DoctorsPanel = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { doctorsData, isLoading, error, fetchDoctors } = useDoctorStore();
   const [filterStatus, setFilterStatus] = useState<Doctor_Status>(
     Doctor_Status.PENDING,
   );
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: 0,
     pageSize: 10,
+  });
+const { 
+    data: doctorsData, // Tu data ya validada
+    isLoading, 
+    isError, 
+    error 
+  } = useDoctorsQuery({
+    status: filterStatus,
+    page: paginationModel.page + 1, // Ajuste porque DataGrid usa base 0
+    limit: paginationModel.pageSize,
   });
 
 const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
@@ -45,16 +54,7 @@ const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
     setSelectedDoctorId(null);
   }
 
-  useEffect(() => {
-    const query = {
-      status: filterStatus,
-      page: paginationModel.page + 1,
-      limit: paginationModel.pageSize,
-    };
-
-    fetchDoctors(query); 
-
-  }, [filterStatus, paginationModel, fetchDoctors]); 
+ 
 
   
   const StatusCircle = ({ color }: { color: string }) => (
@@ -203,19 +203,16 @@ const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
   ];
 
   // --- 8. MANEJO DE ERROR (Ahora lee 'error' del store) ---
-  if (error) {
+ if (isError) {
     return (
       <Box m="20px">
-        <Header title="ERROR" subtitle={error} />
-        <Typography color="error">
-          No se pudieron cargar los doctores. Intenta recargar la página.
-        </Typography>
+        <Header title="ERROR" subtitle={error instanceof Error ? error.message : "Error desconocido"} />
+        <Typography color="error">No se pudieron cargar los doctores.</Typography>
       </Box>
     );
   }
 
-  // --- 9. MANEJO DE LOADING (Ahora lee 'isLoading' del store) ---
-  // (Lo pongo después del 'error' para que el error tenga prioridad)
+
   if (isLoading) {
     return (
       <Box m="20px" display="flex" justifyContent="center" alignItems="center" height="80vh">
