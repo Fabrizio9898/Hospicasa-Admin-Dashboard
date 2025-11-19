@@ -19,11 +19,13 @@ import {
 } from '@mui/icons-material';
 import { tokens } from '../../theme';
 import Header from '../../components/Header';
-import { TicketCard } from '../../components/ticketCard.component';
 import { TicketCategory } from '../../enums/tickets/ticketCategory.enum';
 import { UserRole } from '../../enums/userRole.enum';
 import { Ticket } from '../../types/ticket.type';
 import { useTicketsInfiniteQuery } from '../../hooks/useTickets.hook';
+import { TicketCard } from '../../components/TicketCard.component';
+import { ModalView } from '../../components/Modal';
+import { TicketDetail } from '../../components/TicketReportsDetailes';
 
 
 type RoleFilter = UserRole | 'ALL';
@@ -181,7 +183,7 @@ export const Reports = () => {
           {/* --- GRID DE REPORTES --- */}
           <Grid container spacing={3}>
             {allTickets.map((report) => (
-              <TicketCard 
+              <TicketCard
                 key={report.id} 
                 report={report} 
                 onViewDetails={handleViewDetails} 
@@ -216,7 +218,15 @@ export const Reports = () => {
         </>
       )}
 
-      {/* <TicketModal open={isModalOpen} ticket={selectedTicket} onClose={handleCloseModal} /> */}
+<ModalView isOpen={isModalOpen} onClose={handleCloseModal}>
+          {/* Verificamos que selectedTicket exista antes de renderizar el detalle */}
+          {selectedTicket && (
+            <TicketDetail 
+              ticket={selectedTicket} 
+              onClose={handleCloseModal} 
+            />
+          )}
+       </ModalView>
 
     </Box>
   );

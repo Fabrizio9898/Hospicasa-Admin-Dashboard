@@ -33,6 +33,7 @@ export async function getTickets(
         role: roleToSend,
       },
     });
+console.log(response.data);
 
     return TicketResponseSchema.parse(response.data);
   } catch (error) {

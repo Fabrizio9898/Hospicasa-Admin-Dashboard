@@ -3,6 +3,7 @@ import { UserRole } from "../enums/userRole.enum";
 import { TicketCategory } from "../enums/tickets/ticketCategory.enum";
 import { TicketPriority } from "../enums/tickets/ticketPriority.enum";
 import { TicketStatus } from "../enums/tickets/ticketStatus.enum";
+import { TicketReason } from "../enums/tickets/ticketReason.enum";
 
 export const TicketUserSchema = z.object({
   id: z.string().optional(),
@@ -15,9 +16,10 @@ export const TicketSchema = z.object({
   id: z.string(),
   user: TicketUserSchema,
   category: z.enum(TicketCategory),
+  reason:z.enum(TicketReason),
   priority: z.enum(TicketPriority),
   status: z.enum(TicketStatus),
-  subject: z.string(),
+  subject: z.string().optional().nullable(),
   description: z.string(),
   date: z.string(),
   bookingId: z.string().optional().nullable(),

@@ -16,7 +16,7 @@ interface DoctorProfileProps {
   doctorId: string | null;
 }
 
-const modalStyle = (colors:ColorTokens) => ({ 
+export const modalStyle = (colors:ColorTokens) => ({ 
   position: 'absolute',
   top: '50%',
   left: '50%',
