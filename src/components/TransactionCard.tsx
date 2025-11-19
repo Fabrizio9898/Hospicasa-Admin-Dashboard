@@ -44,7 +44,7 @@ export const TransactionCard = ({ data, onPay, onViewDetails }: TransactionCardP
 
   return (
     <Card sx={{ 
-      bgcolor: colors.primary[400], 
+      bgcolor: 'background.paper',
       borderRadius: '12px',
       border: isPaid ? `1px solid ${colors.greenAccent[500]}` : `1px solid ${colors.grey[700]}`,
       position: 'relative',
@@ -63,13 +63,13 @@ export const TransactionCard = ({ data, onPay, onViewDetails }: TransactionCardP
         <Box display="flex" alignItems="center" gap={2} mb={2}>
           <Avatar 
             src={data.doctorImage} 
-            sx={{ width: 50, height: 50, border: `2px solid ${colors.blueAccent[500]}` }}
+            sx={{ width: 50, height: 50,borderColor: 'primary.main',  border: '2px solid'}}
           />
           <Box>
-            <Typography variant="h5" fontWeight="bold" color={colors.grey[100]}>
+            <Typography variant="h5" fontWeight="bold" color="text.primary">
               {data.doctorName}
             </Typography>
-            <Typography variant="caption" color={colors.grey[400]} display="flex" alignItems="center" gap={0.5}>
+            <Typography variant="caption" color="text.secondary" display="flex" alignItems="center" gap={0.5}>
               <History fontSize="inherit"/> Último pago: {data.lastPaymentDate || 'Nunca'}
             </Typography>
           </Box>
@@ -77,38 +77,48 @@ export const TransactionCard = ({ data, onPay, onViewDetails }: TransactionCardP
 
         <Divider sx={{ my: 2 }} />
 
-        {/* DATOS FINANCIEROS */}
+ {/* DATOS FINANCIEROS */}
         <Grid container spacing={2} mb={2}>
-          <Grid  size={{xs:6}}>
-            <Typography variant="caption" color={colors.grey[300]}>Citas Realizadas</Typography>
-            <Typography variant="h4" fontWeight="bold">{data.totalAppointments}</Typography>
+          <Grid size={{xs:6}}>
+            <Typography variant="caption" color="text.secondary">Citas Realizadas</Typography>
+            <Typography variant="h4" fontWeight="bold" color="text.primary">{data.totalAppointments}</Typography>
           </Grid>
-          <Grid  size={{xs:6}} textAlign="right">
-             <Typography variant="caption" color={colors.grey[300]}>A Transferir</Typography>
-             <Typography variant="h3" fontWeight="bold" color={colors.greenAccent[400]}>
+          <Grid size={{xs:6}}  textAlign="right">
+             <Typography variant="caption" color="text.secondary">A Transferir</Typography>
+             {/* Usamos 'success.main' para dinero, se lee bien siempre */}
+             <Typography variant="h4" fontWeight="bold" color="success.main">
                 {formatMoney(data.netAmount)}
              </Typography>
-             <Typography variant="caption" display="block" color={colors.grey[500]}>
+             <Typography variant="caption" display="block" color="text.secondary">
                 (Comisión descontada)
              </Typography>
           </Grid>
         </Grid>
 
+
         {/* DATOS BANCARIOS RÁPIDOS (Para copiar y pegar) */}
-        <Box bgcolor={colors.primary[500]} p={1.5} borderRadius="8px" mb={3}>
+        <Box  
+          bgcolor="action.hover" 
+          p={1.5} 
+          borderRadius="8px" 
+          mb={3}
+          border="1px dashed"
+          borderColor="divider">
             <Box display="flex" justifyContent="space-between" mb={0.5}>
-                <Typography variant="caption" color={colors.grey[400]}>CBU:</Typography>
-                <Typography variant="caption" fontFamily="monospace">{data.doctorCbu || 'No cargado'}</Typography>
+                <Typography variant="caption" color="text.secondary">CBU:</Typography>
+                <Typography variant="caption" fontFamily="monospace" color="text.primary">
+                  {data.doctorCbu || 'No cargado'}
+                </Typography>
             </Box>
             <Box display="flex" justifyContent="space-between">
-                <Typography variant="caption" color={colors.grey[400]}>Alias:</Typography>
-                <Typography variant="caption" fontFamily="monospace" fontWeight="bold" color={colors.blueAccent[300]}>
+                 <Typography variant="caption" color="text.secondary">Alias:</Typography>
+                <Typography variant="caption" fontFamily="monospace" fontWeight="bold" color="primary.main">
                     {data.doctorAlias || 'No cargado'}
                 </Typography>
             </Box>
         </Box>
 
-        {/* ACCIONES */}
+         {/* ACCIONES */}
         <Box display="flex" gap={1}>
           {!isPaid ? (
             <Button 
@@ -127,7 +137,7 @@ export const TransactionCard = ({ data, onPay, onViewDetails }: TransactionCardP
           )}
           
           <Tooltip title="Ver detalle de citas">
-            <IconButton onClick={() => onViewDetails(data.doctorId)} sx={{ bgcolor: colors.primary[500] }}>
+            <IconButton onClick={() => onViewDetails(data.doctorId)}>
                 <Visibility />
             </IconButton>
           </Tooltip>
