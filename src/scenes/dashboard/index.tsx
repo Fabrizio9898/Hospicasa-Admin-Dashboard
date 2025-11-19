@@ -174,7 +174,7 @@ const Dashboard = () => {
             {/* 5. BOTÓN "VER MÁS" */}
             <Button
               component={Link}
-              to="/transactions" // <-- Te lleva a la futura página de pagos
+              to="/pagos" // <-- Te lleva a la futura página de pagos
               variant="contained"
               color="secondary"
               size="small"
