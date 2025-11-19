@@ -133,13 +133,6 @@ borderColor: colors.grey[200],
             sx={tabStyle} 
           />
           <Tab
-            label="Perfil"
-            component={Link}
-            to="/settings/profile"
-            value="/settings/profile"
-            sx={tabStyle}
-          />
-          <Tab
             label="Equipo"
             component={Link}
             to="/settings/equipo"

@@ -50,7 +50,7 @@ const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-
+console.log(user)
   return (
     <Box
       sx={{
@@ -110,14 +110,14 @@ const Sidebar = () => {
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
-              <Box sx={{ textAlign: "center" }}>
+              <Box sx={{ textAlign: "center"}}>
                 <Typography
                   variant="h2"
                   color="text.primary"
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-{user?.name}                </Typography>
+{user?.fullname}                </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
 {user?.role===UserRole.ADMIN?"Admin":"Super Admin"}                </Typography>
               </Box>
@@ -190,11 +190,6 @@ const Sidebar = () => {
   >
     Plataforma
   </Typography>
-  <Item
-    title="Gestión de Staff"
-    to="/plataforma/staff" 
-    icon={<AdminPanelSettingsOutlinedIcon />}
-  />
   <Item
     title="Configuración"
     to="/settings" 

@@ -6,13 +6,16 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import '../../styles/topbar.css';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import LogoutIcon from '@mui/icons-material/Logout';import { Link } from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/auth.store";
 const Topbar = () => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null); // El dropdown
   const iconRef = useRef<HTMLButtonElement>(null);
+  const navigate = useNavigate(); // Hook de navegación
+  const logout = useAuthStore((state) => state.logout);
 
 
 useEffect(() => {
@@ -34,6 +37,12 @@ useEffect(() => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleLogout = () => {
+    logout(); // Borra token y user de Zustand + LocalStorage
+    setIsDropdownOpen(false); // Cierra el menú
+    navigate("/login"); // Redirige forzosamente al login
+  };
 
   return (
     <Box display="flex" justifyContent="flex-end" p={2}>
@@ -68,12 +77,17 @@ useEffect(() => {
               Perfil
             </Link>
             
-            <Link role="menuitem" to="/logout" className="dropdown-item">
+            <div 
+              role="menuitem" 
+              className="dropdown-item" 
+              onClick={handleLogout} 
+              style={{ cursor: 'pointer' }} 
+            >
               <span className="icon-span">
                 <LogoutIcon fontSize="small" />
               </span>
               Cerrar Sesión
-            </Link>
+            </div>
           </div>
         )}
         </Box>
