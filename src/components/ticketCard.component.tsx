@@ -61,7 +61,7 @@ export const TicketCard = ({ report, onViewDetails }: TicketCardProps) => {
     <Grid size={{xs:12 ,sm:6 ,md:4}} >
       <Card 
         sx={{ 
-          bgcolor: colors.primary[400], 
+          bgcolor: 'background.paper', 
           borderLeft: `6px solid ${getPriorityColor(report.priority)}`,
           height: '100%',
           display: 'flex',
@@ -94,7 +94,7 @@ export const TicketCard = ({ report, onViewDetails }: TicketCardProps) => {
           </Stack>
 
           {/* Contenido Principal */}
-          <Typography variant="h5" fontWeight="bold" color={colors.grey[100]} gutterBottom>
+          <Typography variant="h5" fontWeight="bold" color="text.primary" gutterBottom>
             {report.category}
           </Typography>
           

@@ -35,7 +35,7 @@ const Item = ({ title, to, icon }: ItemProps) => {
     <MenuItem
       active={isActive} 
       style={{
-        color: colors.grey[100],
+        color: 'text.primary',
       }}
       icon={icon}
     >
@@ -79,7 +79,7 @@ const Sidebar = () => {
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
-              color: colors.grey[100],
+              color: 'text.primary',
             }}
           >
             {!isCollapsed && (
@@ -113,7 +113,7 @@ const Sidebar = () => {
               <Box sx={{ textAlign: "center" }}>
                 <Typography
                   variant="h2"
-                  color={colors.grey[100]}
+                  color="text.primary"
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >

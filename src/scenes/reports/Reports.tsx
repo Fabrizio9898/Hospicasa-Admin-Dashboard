@@ -92,7 +92,7 @@ export const Reports = () => {
       <Box 
         mb={4} 
         p={3} 
-        bgcolor={colors.primary[400]} 
+        bgcolor="background.paper" 
         borderRadius="8px"
         display="flex"
         flexWrap="wrap"
@@ -120,7 +120,7 @@ export const Reports = () => {
                 variant="outlined" 
                 label={option} 
                 {...tagProps} 
-                sx={{ borderColor: colors.greenAccent[400], color: colors.grey[100] }}
+                sx={{ borderColor: colors.greenAccent[400], color: 'text.primary' }}
               />
             )})
           }
@@ -144,7 +144,7 @@ export const Reports = () => {
           aria-label="role filter"
           sx={{ 
              '& .MuiToggleButton-root': { 
-                color: colors.grey[100], 
+                color: 'text.primary', 
                 borderColor: colors.greenAccent[500],
                 '&.Mui-selected': {
                    backgroundColor: colors.greenAccent[600],

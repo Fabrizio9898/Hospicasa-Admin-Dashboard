@@ -25,7 +25,7 @@ export const modalStyle = (colors:ColorTokens) => ({
   maxWidth: '800px', 
   maxHeight: '85vh', 
   overflowY: 'auto', 
-  bgcolor: colors.primary[400], 
+  bgcolor: 'background.paper', 
   border: `1px solid ${colors.grey[700]}`,
   borderRadius: '8px',
   boxShadow: 24,
@@ -122,7 +122,7 @@ console.log(result);
         text: "El documento ha sido marcado.", 
         icon: "success",
         background: colors.primary[400],
-        color: colors.grey[100],
+        color: 'text.primary',
       });
 
     } catch (error) {
@@ -262,7 +262,7 @@ const updateDoctorStatusApi = async (
                 alignContent:"center",
 
               }}>
-              <Typography variant="h2" color={colors.grey[100]} fontWeight="bold">
+              <Typography variant="h2" color="text.primary" fontWeight="bold">
                 {(doctor.fullname).toUpperCase()}
               </Typography>
               {doctor.status===Doctor_Status.ACTIVE && (
@@ -324,7 +324,7 @@ Sin especialidades seleccionadas.
 {/* --- 2. SECCIÓN DOCUMENTOS --- */}
           <Box sx={{ alignContent:"center",flexDirection:"column", display:"flex"}}>
             
-            <Typography variant="h4" color={colors.grey[100]} sx={{  }} gutterBottom>
+            <Typography variant="h4" color="text.primary" sx={{  }} gutterBottom>
               Documentos
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row',gap:2 , flexWrap:"wrap" }}>

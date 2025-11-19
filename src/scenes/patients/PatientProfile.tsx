@@ -57,11 +57,11 @@ export const UserProfile = () => {
         <Button 
             startIcon={<ArrowBack />} 
             onClick={() => navigate(-1)} 
-            sx={{ color: colors.grey[100], mr: 2 }}
+            sx={{ color: 'text.primary', mr: 2 }}
         >
             Volver
         </Button>
-        <Typography variant="h3" fontWeight="bold" color={colors.grey[100]}>
+        <Typography variant="h3" fontWeight="bold" color="text.primary">
           Perfil del Paciente
         </Typography>
       </Box>
@@ -70,7 +70,7 @@ export const UserProfile = () => {
         
         {/* --- TARJETA PRINCIPAL (Izquierda) --- */}
         <Grid size={{xs:12 ,md:4}}>
-          <Paper elevation={3} sx={{ p: 3, bgcolor: colors.primary[400], textAlign: 'center', borderRadius: '12px' }}>
+          <Paper elevation={3} sx={{ p: 3, bgcolor: 'background.paper', textAlign: 'center', borderRadius: '12px' }}>
             <Avatar 
               src={user.profile_image} 
               sx={{ width: 120, height: 120, margin: '0 auto', mb: 2, border: `4px solid ${colors.greenAccent[500]}` }}
@@ -82,18 +82,18 @@ export const UserProfile = () => {
             
             <Box display="flex" alignItems="center" gap={1} mb={1} justifyContent="center">
               <Email sx={{ color: colors.greenAccent[500] }} />
-              <Typography color={colors.grey[100]}>{user.email}</Typography>
+              <Typography color="text.primary">{user.email}</Typography>
             </Box>
             
             <Box display="flex" alignItems="center" gap={1} justifyContent="center">
               <CalendarMonth sx={{ color: colors.greenAccent[500] }} />
-              <Typography color={colors.grey[100]}>
+              <Typography color="text.primary">
                 Miembro desde: {new Date(user.createdAt).toLocaleDateString()}
               </Typography>
             </Box>
 
             {/* Estadísticas Rápidas */}
-            <Box display="flex" justifyContent="space-around" mt={4} p={2} bgcolor={colors.primary[500]} borderRadius="8px">
+            <Box display="flex" justifyContent="space-around" mt={4} p={2} bgcolor="background.default" borderRadius="8px">
                <Box>
                   <Typography variant="h3" color={colors.greenAccent[500]}>{user.appointments?.length || 0}</Typography>
                   <Typography variant="caption">Citas</Typography>
@@ -108,7 +108,7 @@ export const UserProfile = () => {
 
         {/* --- PANELES DE DETALLE (Derecha) --- */}
         <Grid size={{xs:12 ,md:8}}>
-          <Paper elevation={3} sx={{ bgcolor: colors.primary[400], borderRadius: '12px', overflow: 'hidden', minHeight: '500px' }}>
+          <Paper elevation={3} sx={{ bgcolor: 'background.paper', borderRadius: '12px', overflow: 'hidden', minHeight: '500px' }}>
             <Tabs 
                 value={tabValue} 
                 onChange={handleTabChange}
@@ -140,7 +140,7 @@ export const UserProfile = () => {
     
         secondary={new Date(appt.dateHour).toLocaleString()}
         
-        primaryTypographyProps={{ fontWeight: 'bold', color: colors.grey[100] }}
+        primaryTypographyProps={{ fontWeight: 'bold', color: 'text.primary' }}
         secondaryTypographyProps={{ color: colors.grey[300] }}
       />
       <Chip 
@@ -162,10 +162,10 @@ export const UserProfile = () => {
               <Typography variant="h5" mb={2} fontWeight="bold">Tickets de Soporte</Typography>
               {user.supportTickets && user.supportTickets.length > 0 ? (
                   user.supportTickets.map((ticket: TicketPatientPreviewType) => (
-                    <Box key={ticket.id} p={2} mb={2} bgcolor={colors.primary[500]} borderRadius="4px" borderLeft={`4px solid ${colors.redAccent[500]}`}>
+                    <Box key={ticket.id} p={2} mb={2} bgcolor="background.default" borderRadius="4px" borderLeft={`4px solid ${colors.redAccent[500]}`}>
                         <Box display="flex" justifyContent="space-between">
                             <Typography fontWeight="bold">{ticket.category}
-                              
+
                             </Typography>
                             <Chip label={ticket.status} size="small" />
                         </Box>

@@ -168,7 +168,7 @@ const Dashboard = () => {
               p: "15px",
             }}
           >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+            <Typography color="text.primary" variant="h5" fontWeight="600">
               Transacciones Recientes
             </Typography>
             {/* 5. BOTÓN "VER MÁS" */}
@@ -200,11 +200,11 @@ const Dashboard = () => {
                 <Typography color={colors.greenAccent[500]} variant="h5" fontWeight="600">
                   {transaction.txId}
                 </Typography>
-                <Typography color={colors.grey[100]}>
+                <Typography color="text.primary">
                   {transaction.user}
                 </Typography>
               </Box>
-              <Box sx={{ color: colors.grey[100] }}>{transaction.date}</Box>
+              <Box sx={{ color: 'text.primary' }}>{transaction.date}</Box>
               <Box
                 sx={{
                   backgroundColor: colors.greenAccent[500],

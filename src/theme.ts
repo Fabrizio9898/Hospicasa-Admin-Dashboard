@@ -151,19 +151,21 @@ export const tokens = (mode: PaletteMode) => ({
 
 // mui theme settings
 // 3. Tipamos 'mode' y el valor de retorno, que es 'ThemeOptions'
+// mui theme settings
 export const themeSettings = (mode: PaletteMode): ThemeOptions => {
   const colors = tokens(mode);
+
   return {
     palette: {
       mode: mode,
       ...(mode === "dark"
         ? {
-            // (Tu paleta dark... todo bien)
+            // --- MODO OSCURO ---
             primary: {
-              main: colors.primary[500],
+              main: colors.blueAccent[500], // Tu color de marca principal
             },
             secondary: {
-              main: colors.greenAccent[500],
+              main: colors.greenAccent[500], // Tu color de acción/éxito
             },
             neutral: {
               dark: colors.grey[700],
@@ -171,13 +173,18 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.primary[500],
+              default: colors.primary[500], // Fondo de la app (Oscuro)
+              paper: colors.primary[400],   // Fondo de tarjetas/modales (Un poco más claro)
             },
+            text: {
+              primary: colors.grey[100], // Blanco
+              secondary: colors.greenAccent[500],
+            }
           }
         : {
-            // (Tu paleta light... todo bien)
+            // --- MODO CLARO ---
             primary: {
-              main: colors.primary[100],
+              main: colors.blueAccent[500], // El color de marca sigue siendo azul
             },
             secondary: {
               main: colors.greenAccent[500],
@@ -188,41 +195,25 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
               light: colors.grey[100],
             },
             background: {
-              default: "#fcfcfc",
+              default: "#f2f0f0", // Gris muy clarito (casi blanco) para el fondo
+              paper: "#ffffff",   // Blanco puro para tarjetas/modales/inputs
             },
+            text: {
+              primary: "#141414", // Negro casi puro
+              secondary: colors.greenAccent[600], // Un verde un poco más oscuro para contraste
+            }
           }),
     },
+    // ... (Mantén tu typography igual)
     typography: {
-      // (Tu tipografía... todo bien)
-      fontFamily: ["Onest Variable", "Source Sans Pro", "sans-serif"].join(
-        ","
-      ),
-      fontSize: 12,
-      h1: {
-        fontFamily: ["Onest Variable", "sans-serif"].join(","),
-        fontSize: 40,
-        fontWeight: 700,
-      },
-      h2: {
-        fontFamily: ["Onest Variable", "sans-serif"].join(","),
-        fontSize: 32,
-      },
-      h3: {
-        fontFamily: ["Onest Variable", "sans-serif"].join(","),
-        fontSize: 24,
-      },
-      h4: {
-        fontFamily: ["Onest Variable", "sans-serif"].join(","),
-        fontSize: 20,
-      },
-      h5: {
-        fontFamily: ["Onest Variable", "sans-serif"].join(","),
-        fontSize: 16,
-      },
-      h6: {
-        fontFamily: ["Onest Variable", "sans-serif"].join(","),
-        fontSize: 14,
-      },
+        fontFamily: ["Onest Variable", "Source Sans Pro", "sans-serif"].join(","),
+        fontSize: 12,
+        h1: { fontFamily: ["Onest Variable", "sans-serif"].join(","), fontSize: 40, fontWeight: 700 },
+        h2: { fontFamily: ["Onest Variable", "sans-serif"].join(","), fontSize: 32 },
+        h3: { fontFamily: ["Onest Variable", "sans-serif"].join(","), fontSize: 24 },
+        h4: { fontFamily: ["Onest Variable", "sans-serif"].join(","), fontSize: 20 },
+        h5: { fontFamily: ["Onest Variable", "sans-serif"].join(","), fontSize: 16 },
+        h6: { fontFamily: ["Onest Variable", "sans-serif"].join(","), fontSize: 14 },
     },
   };
 };

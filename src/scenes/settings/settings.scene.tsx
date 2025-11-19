@@ -18,10 +18,10 @@ fontFamily: theme.typography.fontFamily ?? "sans-serif",
     paddingX: '0.75rem',      
     paddingY: '0.5rem',        
     border: '1px solid transparent', 
-        color: colors.grey[100],
+        color: 'text.primary',
     '&:hover': {
       borderColor: theme.palette.divider ,
-      color: colors.grey[100],
+      color: 'text.primary',
     },
     '&.Mui-selected': {
       backgroundColor: '#FFFFFF',

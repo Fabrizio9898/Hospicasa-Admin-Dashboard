@@ -103,7 +103,7 @@ const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
       
       renderHeader: () => (
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          <Typography sx={{ mr: 1, color: colors.grey[100], fontSize: '0.9rem' }}>
+          <Typography sx={{ mr: 1, color: 'text.primary', fontSize: '0.9rem' }}>
             Estado:
           </Typography>
           <Select

@@ -35,7 +35,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
         
         case TicketReason.DOCTOR_NO_SHOW:
           return (
-            <Box p={2} bgcolor={colors.primary[500]} borderRadius="8px" mb={2} borderLeft={`4px solid ${colors.redAccent[500]}`}>
+            <Box p={2} bgcolor="background.default" borderRadius="8px" mb={2} borderLeft={`4px solid ${colors.redAccent[500]}`}>
                <Typography variant="subtitle2" fontWeight="bold" color={colors.redAccent[200]} mb={1} display="flex" alignItems="center" gap={1}>
                  <Gavel fontSize="small"/> Ausencia del Profesional
                </Typography>
@@ -56,7 +56,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
         case TicketReason.AUDIO_VIDEO_FAIL:
         case TicketReason.APP_CRASH:
            return (
-            <Box p={2} bgcolor={colors.primary[500]} borderRadius="8px" mb={2} borderLeft={`4px solid ${colors.greenAccent[500]}`}>
+            <Box p={2} bgcolor="background.default" borderRadius="8px" mb={2} borderLeft={`4px solid ${colors.greenAccent[500]}`}>
                <Typography variant="subtitle2" fontWeight="bold" color={colors.greenAccent[200]} mb={1} display="flex" alignItems="center" gap={1}>
                  <VideocamOff fontSize="small"/> Falla Técnica
                </Typography>
@@ -73,7 +73,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
     switch (ticket.category) {
       case TicketCategory.PAYMENT_ISSUE:
         return (
-          <Box p={2} bgcolor={colors.primary[500]} borderRadius="8px" mb={2} borderLeft={`4px solid ${colors.blueAccent[500]}`}>
+          <Box p={2} bgcolor="background.default" borderRadius="8px" mb={2} borderLeft={`4px solid ${colors.blueAccent[500]}`}>
             <Typography variant="subtitle2" fontWeight="bold" mb={1} display="flex" alignItems="center" gap={1}>
               <Payment fontSize="small" /> Gestión de Pagos
             </Typography>
@@ -86,7 +86,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
       
       case TicketCategory.REPORT_USER:
          return (
-          <Box p={2} bgcolor={colors.primary[500]} borderRadius="8px" mb={2} borderLeft={`4px solid ${colors.redAccent[500]}`}>
+          <Box p={2} bgcolor="background.default" borderRadius="8px" mb={2} borderLeft={`4px solid ${colors.redAccent[500]}`}>
              <Typography variant="subtitle2" fontWeight="bold" mb={1} display="flex" alignItems="center" gap={1}>
               <Block fontSize="small" /> Seguridad
             </Typography>
@@ -105,7 +105,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="start" mb={2}>
         <Box>
-            <Typography variant="h3" color={colors.grey[100]} fontWeight="bold">
+            <Typography variant="h3" color="text.primary" fontWeight="bold">
               Ticket #{ticket.id.split('-')[1] || ticket.id.slice(0,6)}
             </Typography>
             {/* Muestra la RAZÓN si existe, es lo más importante */}
@@ -121,7 +121,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
                {new Date(ticket.date).toLocaleString()}
             </Typography>
         </Box>
-        <IconButton onClick={onClose}><Close sx={{ color: colors.grey[100] }} /></IconButton>
+        <IconButton onClick={onClose}><Close sx={{ color: 'text.primary' }} /></IconButton>
       </Box>
 
       <Divider sx={{ mb: 2 }} />
@@ -147,7 +147,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
                 {ticket.subject || "Sin Asunto"}
             </Typography>
             
-            <Box bgcolor={colors.primary[500]} p={2} borderRadius="4px">
+            <Box bgcolor="background.default" p={2} borderRadius="4px">
                 <Typography variant="body1" color='white' sx={{ whiteSpace: 'pre-wrap' }}>
                 {ticket.description}
                 </Typography>
@@ -190,7 +190,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
       {renderSmartActions()}
 
       {/* --- RESOLUCIÓN FINAL --- */}
-      <Typography variant="h6" color={colors.grey[100]} fontWeight="bold" mt={3} mb={1}>
+      <Typography variant="h6" color="text.primary" fontWeight="bold" mt={3} mb={1}>
         Nota de Cierre
       </Typography>
       
