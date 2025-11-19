@@ -14,6 +14,7 @@ import UpdateProfileComponent from "./components/UpdateProfile.component";
 import { Reports } from "./scenes/reports/Reports";
 import { UserProfile } from "./scenes/patients/PatientProfile";
 import {  Transactions } from "./scenes/transcaccions/Transactions";
+import { Specialities } from "./scenes/Specialities";
 
 
 
@@ -68,6 +69,7 @@ function App() {
   <Route path="password" element={<></>} />
 </Route>          
       <Route path="/panel-doctores" element={<DoctorPanel />} />
+      <Route path="/especialidades" element={<Specialities/>}/>
       <Route path="/invoices" element={<Invoices />} />
       <Route path="/form" element={<AdminRegister />} />
       <Route path="/faq" element={<FAQ />} />

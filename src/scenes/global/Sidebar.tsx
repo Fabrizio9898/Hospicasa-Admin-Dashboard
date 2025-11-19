@@ -148,7 +148,7 @@ console.log(user)
 
             <Item
     title="Especialidades"
-    to="/gestion/especialidades" 
+    to="/especialidades" 
     icon={<CategoryOutlinedIcon />}
   />
             <Typography

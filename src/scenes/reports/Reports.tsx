@@ -23,9 +23,9 @@ import { TicketCategory } from '../../enums/tickets/ticketCategory.enum';
 import { UserRole } from '../../enums/userRole.enum';
 import { Ticket } from '../../types/ticket.type';
 import { useTicketsInfiniteQuery } from '../../hooks/useTickets.hook';
-import { TicketCard } from '../../components/TicketCard.component';
 import { ModalView } from '../../components/Modal';
 import { TicketDetail } from '../../components/TicketReportsDetailes';
+import { TicketCard } from '../../components/ticketCard.component';
 
 
 type RoleFilter = UserRole | 'ALL';
