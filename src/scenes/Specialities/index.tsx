@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import { DoctorSpeciality, SpecialityUI } from '../../types/doctorSpeciality.type';
 import { SpecialityCard } from '../../components/SpecialityCard';
 import { ModalView } from '../../components/Modal';
-import { CreateSpeciality } from '../../components/CreateSpeciality';
+import { CreateSpeciality } from '../../components/CreateSpecialityForm';
 
 
 // --- MOCK DATA INICIAL ---
@@ -29,6 +29,7 @@ export const Specialities = () => {
     // Handler para crear (Optimistic UI Local)
     const handleCreate = (newSpec: DoctorSpeciality) => {
         const newItem: SpecialityUI = {
+            id: Math.random().toString(36).substr(2, 9), // ID falso
             ...newSpec,
             doctorCount: 0, // Empieza sin doctores
             createdAt: new Date()
@@ -96,17 +97,15 @@ export const Specialities = () => {
                 )}
             </Grid>
 
-         <ModalView 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)}
-            >
-                {/* 2. Renderizamos el Formulario dentro */}
-                <CreateSpeciality 
-                    onClose={() => setIsModalOpen(false)} // Para que el botón "Cancelar" funcione
-                    onCreate={handleCreate}               // Para recibir la data del formulario
-                />
-            </ModalView>
-
+          <ModalView
+    isOpen={isModalOpen} 
+    onClose={() => setIsModalOpen(false)}
+>
+    <CreateSpeciality
+        onClose={() => setIsModalOpen(false)}
+        onCreate={handleCreate}
+    />
+</ModalView>
 
         </Box>
     );

@@ -1,17 +1,16 @@
 import { 
-  Button, TextField, Box, Typography, Divider 
+  Button, TextField, Box, Typography, Divider, useTheme 
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Swal from 'sweetalert2';
 import { AddCircleOutline, Close } from '@mui/icons-material';
 import { tokens } from '../theme';
-import { useTheme } from '@mui/material';
 import { DoctorSpeciality, doctorSpecialitySchema } from '../types/doctorSpeciality.type';
 import { modalStyle } from '../scenes/doctor-profile/doctorProfile.scene';
 
 interface CreateSpecialityFormProps {
-  onClose: () => void; // Para el botón cancelar
+  onClose: () => void; 
   onCreate: (data: DoctorSpeciality) => void;
 }
 
@@ -19,16 +18,19 @@ export const CreateSpeciality = ({ onClose, onCreate }: CreateSpecialityFormProp
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // 1. Configuración de React Hook Form + Zod
+  // 1. Configuración del Formulario
   const { control, handleSubmit, reset, formState: { errors } } = useForm<DoctorSpeciality>({
     resolver: zodResolver(doctorSpecialitySchema),
     defaultValues: {
         name: '',
         description: ''
-    }
+    },
+    mode: 'onChange' // Valida mientras escribes (más feedback visual)
   });
 
+  // 2. Función que SOLO se ejecuta si Zod dice que todo está OK
   const onSubmit = (data: DoctorSpeciality) => {
+    
     // Feedback visual
     Swal.fire({
         title: '¡Especialidad Creada!',
@@ -36,19 +38,23 @@ export const CreateSpeciality = ({ onClose, onCreate }: CreateSpecialityFormProp
         icon: 'success',
         timer: 2000,
         showConfirmButton: false,
-        // Ajusta estos colores a tu gusto o usa hardcoded si swal da problemas con tokens
-        background: colors.primary[400], 
-        color: colors.grey[100]
+        // Ajusta colores para que combine con tu tema Dark/Light
+        background: theme.palette.mode === 'dark' ? colors.primary[400] : '#fff',
+        color: theme.palette.mode === 'dark' ? colors.grey[100] : '#000'
     });
 
+    // Pasamos datos al padre
     onCreate(data);
+    
+    // Limpiamos
     reset();
-    onClose(); // Cerramos el modal desde aquí al terminar
+    onClose(); 
   };
 
   return (
     <Box sx={modalStyle(colors)}> 
-      {/* HEADER DEL FORMULARIO */}
+      
+      {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <Box display="flex" alignItems="center" gap={1}>
             <AddCircleOutline color="secondary" fontSize="large" />
@@ -64,10 +70,11 @@ export const CreateSpeciality = ({ onClose, onCreate }: CreateSpecialityFormProp
       <Divider sx={{ mb: 3 }} />
 
       {/* FORMULARIO */}
+      {/* handleSubmit valida primero, y si pasa, ejecuta onSubmit */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box display="flex" flexDirection="column" gap={3}>
             
-            {/* CAMPO NOMBRE CONTROLADO */}
+            {/* CAMPO NOMBRE */}
             <Controller
                 name="name"
                 control={control}
@@ -78,8 +85,10 @@ export const CreateSpeciality = ({ onClose, onCreate }: CreateSpecialityFormProp
                         placeholder="Ej: Cardiología Infantil"
                         fullWidth
                         variant="filled"
-                        error={!!errors.name} // Muestra rojo si hay error
-                        helperText={errors.name?.message} // Muestra mensaje de Zod
+                        // Muestra borde rojo si hay error
+                        error={!!errors.name} 
+                        // Muestra el mensaje definido en Zod
+                        helperText={errors.name?.message} 
                         sx={{ 
                             bgcolor: 'action.hover',
                             '& .MuiInputBase-root': { color: 'text.primary' }
@@ -88,7 +97,7 @@ export const CreateSpeciality = ({ onClose, onCreate }: CreateSpecialityFormProp
                 )}
             />
 
-            {/* CAMPO DESCRIPCIÓN CONTROLADO */}
+            {/* CAMPO DESCRIPCIÓN */}
             <Controller
                 name="description"
                 control={control}
