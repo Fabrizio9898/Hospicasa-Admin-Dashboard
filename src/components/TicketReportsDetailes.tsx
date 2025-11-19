@@ -14,6 +14,7 @@ import { TicketCategory } from '../enums/tickets/ticketCategory.enum';
 import { TicketStatus } from '../enums/tickets/ticketStatus.enum';
 import { TicketPriority } from '../enums/tickets/ticketPriority.enum';
 import { TicketReason } from '../enums/tickets/ticketReason.enum'; // <--- IMPORTANTE
+import { useNavigate } from 'react-router-dom';
 
 interface TicketDetailProps {
   ticket: Ticket;
@@ -24,6 +25,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [adminNote, setAdminNote] = useState(ticket.adminResponse || '');
+  const navigate = useNavigate(); // <--- 2. INICIALIZAR EL HOOK
 
   // --- CEREBRO DE ACCIONES ---
   const renderSmartActions = () => {
@@ -146,7 +148,7 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
             </Typography>
             
             <Box bgcolor={colors.primary[500]} p={2} borderRadius="4px">
-                <Typography variant="body1" color={colors.grey[100]} sx={{ whiteSpace: 'pre-wrap' }}>
+                <Typography variant="body1" color='white' sx={{ whiteSpace: 'pre-wrap' }}>
                 {ticket.description}
                 </Typography>
             </Box>
@@ -169,7 +171,11 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
                         </Typography>
                     </Box>
                 </Box>
-                <Button variant="outlined" size="small" fullWidth>Ver Perfil</Button>
+                <Button
+                color="secondary"
+                variant="outlined" size="small" fullWidth                     onClick={() => {
+                  navigate(`/patient/profile/${ticket.user.id}`);
+                }}>Ver Perfil</Button>
             </Box>
         </Grid>
       </Grid>

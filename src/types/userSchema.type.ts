@@ -6,7 +6,7 @@ const userRole = Object.values(UserRole) as [string, ...string[]];
 export const userCleanSchema = z.object({
   id: z.uuid(),
 
-  name: z.string(),
+  fullname: z.string(),
 
   email: z.email("El mail entregado no es valido"),
 

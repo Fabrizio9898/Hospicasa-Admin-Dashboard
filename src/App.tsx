@@ -12,6 +12,7 @@ import { useAuthStore } from "./store/auth.store";
 import SettingsLayout from "./scenes/settings/settings.scene";
 import UpdateProfileComponent from "./components/UpdateProfile.component";
 import { Reports } from "./scenes/reports/Reports";
+import { UserProfile } from "./scenes/patients/PatientProfile";
 
 
 
@@ -70,6 +71,7 @@ function App() {
       <Route path="/form" element={<AdminRegister />} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/soporte" element={<Reports />} />
+      <Route path="/patient/profile/:id" element={<UserProfile />} />
       </Route>
 
     </Routes>
