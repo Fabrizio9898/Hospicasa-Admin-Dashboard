@@ -13,6 +13,7 @@ import SettingsLayout from "./scenes/settings/settings.scene";
 import UpdateProfileComponent from "./components/UpdateProfile.component";
 import { Reports } from "./scenes/reports/Reports";
 import { UserProfile } from "./scenes/patients/PatientProfile";
+import {  Transactions } from "./scenes/transcaccions/Transactions";
 
 
 
@@ -69,6 +70,8 @@ function App() {
       <Route path="/panel-doctores" element={<DoctorPanel />} />
       <Route path="/invoices" element={<Invoices />} />
       <Route path="/form" element={<AdminRegister />} />
+      <Route path="/faq" element={<FAQ />} />
+      <Route path="/pagos" element={<Transactions />} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/soporte" element={<Reports />} />
       <Route path="/patient/profile/:id" element={<UserProfile />} />

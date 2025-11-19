@@ -13,7 +13,6 @@ import { Link, useLocation } from "react-router-dom";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
@@ -166,7 +165,7 @@ console.log(user)
   />
   <Item
     title="Reporte de Pagos"
-    to="/finanzas/pagos" 
+    to="/pagos" 
     icon={<PaymentOutlinedIcon />}
   />
 
