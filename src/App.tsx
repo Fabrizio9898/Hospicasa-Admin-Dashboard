@@ -12,7 +12,7 @@ import { useAuthStore } from "./store/auth.store";
 import SettingsLayout from "./scenes/settings/settings.scene";
 import { Reports } from "./scenes/reports/Reports";
 import { UserProfile } from "./scenes/patients/PatientProfile";
-import {  Transactions } from "./scenes/transcaccions/Transactions";
+import {  Transactions } from "./scenes/finanzas/Transactions";
 import { Specialities } from "./scenes/Specialities";
 import { AdminAgenda } from "./scenes/calendar";
 import { UpdateProfileComponent } from "./components/UpdateEmail";
