@@ -3,7 +3,7 @@ type InnerError = {
 };
 
 export type RegisterErrors = {
-  name?: InnerError;
+  fullname?: InnerError;
   email?: InnerError;
 };
 
