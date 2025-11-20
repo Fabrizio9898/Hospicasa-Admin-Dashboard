@@ -1,7 +1,7 @@
 import { Box, Button, TextField, CircularProgress } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
-import { useRegisterAdmin } from "../../helpers/auth/registerAdminFucntions.auth";
+import Header from "../../../components/Header";
+import { useRegisterAdmin } from "../../../helpers/auth/registerAdminFucntions.auth";
 
 
 const AdminRegister = () => {
@@ -36,7 +36,7 @@ const AdminRegister = () => {
             label="Nombre Completo"
             onChange={handleChange}
             value={userData.fullname} 
-            name="name" 
+            name="fullname" 
             error={!!errors?.name} 
             helperText={errors?.name?._errors[0]}
             disabled={isSubmitting}

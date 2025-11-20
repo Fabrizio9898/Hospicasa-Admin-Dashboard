@@ -3,7 +3,7 @@ import LoginPage from "./scenes/login/LoginPage";
 import Dashboard from "./scenes/dashboard";
 import DoctorPanel from "./scenes/doctors";
 import Invoices from "./scenes/invoices";
-import AdminRegister from "./scenes/createAdmins";
+import AdminRegister from "./scenes/settings/createAdmins";
 import FAQ from "./scenes/faq";
 import DashboardLayout from "./DashboardLayout";
 import { CssBaseline,ThemeProvider  } from "@mui/material";
@@ -77,7 +77,7 @@ function App() {
   <Route index element={<UpdateProfileComponent />} /> 
   <Route path="profile" element={<UpdateProfileComponent />} />
   <Route path="equipo" element={<AdminRegister/>} />
-  <Route path="pagos" element={<></>} />
+  {/* <Route path="pagos" element={<></>} /> */}
   <Route path="password" element={<UpdatePasswordComponent/>} />
 </Route>          
       <Route path="/panel-doctores" element={<DoctorPanel />} />
@@ -86,6 +86,7 @@ function App() {
       <Route path="/calendario" element={< AdminAgenda/>} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/pagos" element={<Transactions />} />
+      <Route path="/finanzas/metricas" element={<Transactions />} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/soporte" element={<Reports />} />
       <Route path="/patient/profile/:id" element={<UserProfile />} />

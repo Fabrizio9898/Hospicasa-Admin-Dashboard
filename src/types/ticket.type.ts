@@ -7,7 +7,7 @@ import { TicketReason } from "../enums/tickets/ticketReason.enum";
 
 export const TicketUserSchema = z.object({
   id: z.string().optional(),
-  name: z.string().min(1),
+  fullname: z.string().min(1),
   role: z.enum(UserRole),
   image: z.string().nullable().optional(),
 });
