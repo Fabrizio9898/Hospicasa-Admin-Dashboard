@@ -17,6 +17,8 @@ import { Specialities } from "./scenes/Specialities";
 import { AdminAgenda } from "./scenes/calendar";
 import { UpdateProfileComponent } from "./components/UpdateEmail";
 import { UpdatePasswordComponent } from "./components/UpdatePassword";
+import { ForgotPassword } from "./scenes/forgot-password";
+import { ResetPassword } from "./scenes/forgot-password/ResetPassword";
 
 
 
@@ -53,6 +55,14 @@ function App() {
     <Routes>
       <Route path="/login" element={
         <PublicRoute><LoginPage /></PublicRoute>} />
+
+        <Route path="/forgot-password" element={
+            <PublicRoute><ForgotPassword /></PublicRoute>} 
+          />
+ <Route path="/reset-password" element={
+            <PublicRoute><ResetPassword /></PublicRoute>} 
+          />
+
 
       <Route
         element={

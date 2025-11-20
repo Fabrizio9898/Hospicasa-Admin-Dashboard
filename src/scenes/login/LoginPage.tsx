@@ -6,11 +6,18 @@ import {
   InputAdornment,
   IconButton,
   CircularProgress,
+  Link as MuiLink, // Importamos Link de MUI con alias
+  useTheme
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Link as RouterLink } from 'react-router-dom'; // Importamos Link de React Router
 import { useLoginFunctions } from '../../helpers/auth/loginFunctions.helper'; 
+import { tokens } from '../../theme'; // Importa tus tokens para usar colores consistentes
 
 const LoginPage = () => {
+  // Hook del tema para colores
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const { 
     userData, 
@@ -24,15 +31,15 @@ const LoginPage = () => {
 
   const toggleShowPassword = () => {  setShowPassword((prev) =>!prev);};
 
-return (
+  return (
     <Box
       sx={{
         display: 'flex',
+        flexDirection:"column",
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        backgroundImage:
-          "url('/assets/admin-background.webp')", 
+        backgroundImage: "url('/assets/admin-background.webp')", 
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
@@ -100,7 +107,7 @@ return (
             color="secondary"
             size="large"
             disabled={isSubmitting} 
-            sx={{ height: '56px' }} 
+            sx={{ height: '56px', fontWeight: 'bold', fontSize: '16px' }} 
           >
             {isSubmitting ? (
               <CircularProgress size={26} color="inherit" />
@@ -108,6 +115,33 @@ return (
               'Entrar'
             )}
           </Button>
+
+          {/* --- SECCIÓN MEJORADA DE FORGOT PASSWORD --- */}
+          <Box display="flex" justifyContent="center" mt={1}>
+            <Typography 
+              variant="body1" 
+              sx={{ color: colors.grey[300] }} // Gris suave legible sobre fondo oscuro
+            >
+              ¿Olvidaste tu contraseña?{' '}
+              <MuiLink 
+                component={RouterLink} 
+                to="/forgot-password"
+                sx={{
+                  color: '#6870fa', // Azul (puedes usar colors.blueAccent[500] si prefieres)
+                  fontWeight: 'bold',
+                  textDecoration: 'none',
+                  transition: 'all 0.3s',
+                  '&:hover': {
+                    color: '#868dfb', // Azul más claro al pasar el mouse
+                    textDecoration: 'underline'
+                  }
+                }}
+              >
+                Recupérala
+              </MuiLink>
+            </Typography>
+          </Box>
+
         </Box>
       </form>
     </Box>

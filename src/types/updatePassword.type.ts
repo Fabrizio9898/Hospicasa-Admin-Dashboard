@@ -9,7 +9,9 @@ export const UpdatePasswordSchema = z
     newPassword: z
       .string()
       .min(6, "La nueva contraseña debe tener al menos 6 caracteres.")
-      .max(50, "La contraseña es muy larga."),
+      .max(50, "La contraseña es muy larga.")
+      .regex(/^(?=.*[A-Z])(?=.*\d).*$/, "La contraseña debe contener al menos una mayúscula y un número."),
+
 
     confirm_password: z.string().min(1, "Debes confirmar la nueva contraseña."),
   })
