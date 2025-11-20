@@ -35,7 +35,7 @@ const AdminRegister = () => {
             type="text"
             label="Nombre Completo"
             onChange={handleChange}
-            value={userData.name} 
+            value={userData.fullname} 
             name="name" 
             error={!!errors?.name} 
             helperText={errors?.name?._errors[0]}
