@@ -16,7 +16,7 @@ const AdminRegister = () => {
   } = useRegisterAdmin();
 
   return (
-    <Box sx={{ m: "20px" }}>
+    <Box sx={{ m: "auto" }}>
       <Header title="CREAR ADMINISTRADOR" subtitle="Crear un nuevo perfil de Admin" />
 
       <form onSubmit={handleSubmit}>

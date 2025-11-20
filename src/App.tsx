@@ -15,7 +15,8 @@ import { UserProfile } from "./scenes/patients/PatientProfile";
 import {  Transactions } from "./scenes/transcaccions/Transactions";
 import { Specialities } from "./scenes/Specialities";
 import { AdminAgenda } from "./scenes/calendar";
-import { UpdateProfileComponent } from "./components/UpdateProfile.component";
+import { UpdateProfileComponent } from "./components/UpdateEmail";
+import { UpdatePasswordComponent } from "./components/UpdatePassword";
 
 
 
@@ -67,7 +68,7 @@ function App() {
   <Route path="profile" element={<UpdateProfileComponent />} />
   <Route path="equipo" element={<AdminRegister/>} />
   <Route path="pagos" element={<></>} />
-  <Route path="password" element={<></>} />
+  <Route path="password" element={<UpdatePasswordComponent/>} />
 </Route>          
       <Route path="/panel-doctores" element={<DoctorPanel />} />
       <Route path="/especialidades" element={<Specialities/>}/>

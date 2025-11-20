@@ -8,6 +8,8 @@ try {
   const response = await api.post("/admin/register",data);
   return response.data;
 } catch (error) {
+  console.log(error);
+  
   if (axios.isAxiosError(error) && error.response) {
     const errorMessage = error.response.data.message || "Error desconocido";
     throw new ErrorHelper(
