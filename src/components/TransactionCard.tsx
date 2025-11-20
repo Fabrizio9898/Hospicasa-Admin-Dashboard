@@ -3,8 +3,8 @@ import {
   Divider, Chip, useTheme, Grid, IconButton, Tooltip 
 } from '@mui/material';
 import { 
-  AttachMoney, CalendarMonth, CheckCircle, History, 
-  Visibility, WhatsApp 
+  AttachMoney, CheckCircle, History, 
+  Visibility,
 } from '@mui/icons-material';
 import { tokens } from '../theme';
 

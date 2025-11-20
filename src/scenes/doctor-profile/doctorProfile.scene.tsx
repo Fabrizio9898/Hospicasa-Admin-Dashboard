@@ -125,6 +125,7 @@ console.log(result);
         color: 'text.primary',
       });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // (Manejo de error de la API)
       Swal.fire("Error", "No se pudo verificar el documento.", "error");

@@ -13,7 +13,6 @@ import { tokens } from '../../theme';
 import { useUserDetail } from '../../hooks/usePatientDetail.hook';
 import { AppointmentType } from '../../types/appointment.type';
 import { AppointmentStatus } from '../../enums/appointmentStatus.enum';
-import { Ticket } from '../../types/ticket.type';
 import { TicketPatientPreviewType } from '../../types/patient.type';
 
 // Componente auxiliar para paneles de pestañas
@@ -46,7 +45,7 @@ export const UserProfile = () => {
   if (isLoading) return <Box display="flex" justifyContent="center" mt={10}><CircularProgress /></Box>;
   if (isError || !user) return <Typography>Error al cargar usuario o no encontrado.</Typography>;
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 

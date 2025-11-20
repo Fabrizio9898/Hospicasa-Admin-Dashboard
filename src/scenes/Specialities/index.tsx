@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { 
-  Box, Button, Grid, Typography, useTheme, InputBase, IconButton 
+  Box, Button, Grid, Typography, InputBase, IconButton 
 } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
 import Header from '../../components/Header';
@@ -19,7 +19,6 @@ const INITIAL_DATA: SpecialityUI[] = [
 ];
 
 export const Specialities = () => {
-    const theme = useTheme();
     
     // Estado local para la lista (Simulando DB)
     const [specialities, setSpecialities] = useState<SpecialityUI[]>(INITIAL_DATA);
@@ -29,7 +28,6 @@ export const Specialities = () => {
     // Handler para crear (Optimistic UI Local)
     const handleCreate = (newSpec: DoctorSpeciality) => {
         const newItem: SpecialityUI = {
-            id: Math.random().toString(36).substr(2, 9), // ID falso
             ...newSpec,
             doctorCount: 0, // Empieza sin doctores
             createdAt: new Date()

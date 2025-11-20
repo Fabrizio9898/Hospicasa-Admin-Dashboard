@@ -1,6 +1,7 @@
 import * as z from "zod"
 
 export const doctorSpecialitySchema = z.object({
+    id: z.uuid(),
   name: z
     .string()
     .min(3, { message: "El nombre debe tener al menos 3 caracteres" })
@@ -17,7 +18,6 @@ export const doctorSpecialitySchema = z.object({
 export type DoctorSpeciality = z.infer<typeof doctorSpecialitySchema>;
 
 export interface SpecialityUI extends DoctorSpeciality {
-  id: string;
   doctorCount: number; // Dato calculado valioso
   createdAt: Date;
 }

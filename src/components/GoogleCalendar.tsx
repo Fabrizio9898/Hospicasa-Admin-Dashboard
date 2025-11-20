@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { 
-  Box, Paper, Typography, useTheme, CircularProgress, 
-  TextField, Button, InputAdornment, IconButton, Tooltip 
+  Box, Paper, Typography, CircularProgress, 
+  TextField, Button,
 } from '@mui/material';
 import { CalendarMonth, Save, Edit, Info } from '@mui/icons-material';
-import { tokens } from '../theme';
 
 interface GoogleCalendarEmbedProps {
   title?: string;
@@ -13,8 +12,6 @@ interface GoogleCalendarEmbedProps {
 export const GoogleCalendar = ({ 
   title = "Mi Agenda Personal" 
 }: GoogleCalendarEmbedProps) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   
   // Estados
   const [calendarId, setCalendarId] = useState<string | null>(null);

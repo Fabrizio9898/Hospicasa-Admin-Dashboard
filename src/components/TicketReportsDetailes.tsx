@@ -4,8 +4,7 @@ import {
   TextField, IconButton, Alert
 } from '@mui/material';
 import { 
-  Close, Event, Payment, Block, CheckCircle, Cancel, 
-  CurrencyExchange, VideocamOff, Gavel, PersonOff 
+  Close, Payment, Block, CheckCircle, Cancel, VideocamOff, Gavel, 
 } from '@mui/icons-material';
 import { tokens } from '../theme'; 
 import { Ticket } from '../types/ticket.type'; 

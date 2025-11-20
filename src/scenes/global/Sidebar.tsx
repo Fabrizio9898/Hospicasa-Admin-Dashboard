@@ -24,8 +24,6 @@ interface ItemProps {
 
 // 3. APLICA LA INTERFACE AL COMPONENTE
 const Item = ({ title, to, icon }: ItemProps) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   
   const location = useLocation();
   const isActive = location.pathname === to;

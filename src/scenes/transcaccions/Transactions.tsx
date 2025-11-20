@@ -107,7 +107,7 @@ export const Transactions = () => {
             <Box borderBottom={1} borderColor="divider" mb={3}>
                 <Tabs 
                     value={currentTab} 
-                    onChange={(e, val) => setCurrentTab(val)}
+                    onChange={(_e, val) => setCurrentTab(val)}
                     textColor="secondary"
                     indicatorColor="secondary"
                 >

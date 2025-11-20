@@ -106,7 +106,7 @@ export const Reports = () => {
           id="tags-filled"
           options={Object.values(TicketCategory)}
           value={selectedCategories}
-          onChange={(event, newValue) => {
+          onChange={(_event, newValue) => {
             setSelectedCategories(newValue);
             // React Query detecta el cambio y recarga automáticamente
           }}
@@ -140,7 +140,7 @@ export const Reports = () => {
         <ToggleButtonGroup
           value={selectedRole}
           exclusive
-          onChange={(e, newRole) => { if(newRole) setSelectedRole(newRole) }}
+          onChange={(_e, newRole) => { if(newRole) setSelectedRole(newRole) }}
           aria-label="role filter"
           sx={{ 
              '& .MuiToggleButton-root': { 
