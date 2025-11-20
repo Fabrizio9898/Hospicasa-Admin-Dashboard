@@ -159,11 +159,11 @@ export const TicketDetail = ({ ticket, onClose }: TicketDetailProps) => {
                 <Typography variant="subtitle2" color={colors.grey[300]} mb={2}>REPORTADO POR:</Typography>
                 <Box display="flex" alignItems="center" gap={2} mb={2}>
                     <Avatar src={ticket.user.image || undefined} sx={{ width: 48, height: 48 }}>
-                        {!ticket.user.image && ticket.user.name[0]}
+                        {!ticket.user.image && ticket.user.fullname[0]}
                     </Avatar>
                     <Box>
                         <Typography variant="subtitle1" fontWeight="bold" sx={{ lineHeight: 1.2 }}>
-                            {ticket.user.name}
+                            {ticket.user.fullname}
                         </Typography>
                         <Typography variant="caption" color={colors.greenAccent[500]}>
                             {ticket.user.role}

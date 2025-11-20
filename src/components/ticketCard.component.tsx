@@ -117,15 +117,15 @@ export const TicketCard = ({ report, onViewDetails }: TicketCardProps) => {
                  {/* Avatar: Usa la imagen si existe, sino la inicial */}
                  <Avatar 
                     src={report.user.image || undefined}
-                    alt={report.user.name}
+                    alt={report.user.fullname}
                     sx={{ bgcolor: colors.blueAccent[500], width: 35, height: 35, mr: 1.5 }}
                  >
-                    {!report.user.image && report.user.name[0]}
+                    {!report.user.image && report.user.fullname[0]}
                  </Avatar>
                  
                  <Box>
                     <Typography variant="subtitle2" fontWeight="bold" sx={{ lineHeight: 1.2 }}>
-                      {report.user.name}
+                      {report.user.fullname}
                     </Typography>
                     <Typography variant="caption" color={colors.greenAccent[500]}>
                       {report.user.role}
