@@ -25,14 +25,22 @@ export const Specialities = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Handler para crear (Optimistic UI Local)
-    const handleCreate = (newSpec: DoctorSpeciality) => {
+       const handleCreate = (newSpecData: DoctorSpeciality) => {
+        // 1. Creamos el objeto completo con un ID único (Importante para React)
         const newItem: SpecialityUI = {
-            ...newSpec,
-            doctorCount: 0, // Empieza sin doctores
+            id: crypto.randomUUID(), // Genera un ID único temporal
+            name: newSpecData.name,
+            description: newSpecData.description,
+            doctorCount: 0, // Empieza en 0
             createdAt: new Date()
         };
-        setSpecialities([...specialities, newItem]);
+
+        // 2. Actualizamos el estado usando la forma FUNCIONAL (prev => ...)
+        // Esto asegura que siempre agregamos al array más reciente
+        setSpecialities((prevSpecialities) => [...prevSpecialities, newItem]);
+
+        // 3. Cerramos el modal
+        setIsModalOpen(false);
     };
 
     // Filtrado simple
