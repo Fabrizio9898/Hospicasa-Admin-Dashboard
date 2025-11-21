@@ -7,23 +7,9 @@ import {
   Visibility,
 } from '@mui/icons-material';
 import { tokens } from '../theme';
+import { SettlementData } from '../data/doctorsdata';
 
 // Interface simulada para el frontend (luego vendrá del back)
-export interface SettlementData {
-  doctorId: string;
-  doctorName: string;
-  doctorImage: string;
-  doctorCbu?: string; // Datos bancarios
-  doctorAlias?: string;
-  
-  totalAppointments: number; // Cantidad de citas
-  totalGross: number; // Total facturado
-  platformFee: number; // Tu comisión
-  netAmount: number; // Lo que le transfieres (Gross - Fee)
-  
-  status: 'PENDING' | 'PAID';
-  lastPaymentDate?: string;
-}
 
 interface TransactionCardProps {
   data: SettlementData;

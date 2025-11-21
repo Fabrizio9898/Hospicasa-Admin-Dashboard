@@ -1,11 +1,10 @@
 import axios from "axios";
-import { CreateAdminSchema } from "../../types/register-schema.type";
 import api from "../api";
 import { ErrorHelper, verifyError } from "../../helpers/error/error.helper";
 
-export async function createAdmin(data:CreateAdminSchema){
+export async function getAdmins(){
 try {
-  const response = await api.post("/admin/register",data);
+  const response = await api.get("/admin/all");
   return response.data;
 } catch (error) {
   console.log(error);

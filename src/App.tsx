@@ -3,19 +3,22 @@ import LoginPage from "./scenes/login/LoginPage";
 import Dashboard from "./scenes/dashboard";
 import DoctorPanel from "./scenes/doctors";
 import Invoices from "./scenes/invoices";
-import AdminRegister from "./scenes/form";
+import AdminRegister from "./scenes/settings/createAdmins";
 import FAQ from "./scenes/faq";
 import DashboardLayout from "./DashboardLayout";
 import { CssBaseline,ThemeProvider  } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { useAuthStore } from "./store/auth.store";
 import SettingsLayout from "./scenes/settings/settings.scene";
-import UpdateProfileComponent from "./components/UpdateProfile.component";
 import { Reports } from "./scenes/reports/Reports";
 import { UserProfile } from "./scenes/patients/PatientProfile";
-import {  Transactions } from "./scenes/transcaccions/Transactions";
+import {  Transactions } from "./scenes/finanzas/Transactions";
 import { Specialities } from "./scenes/Specialities";
 import { AdminAgenda } from "./scenes/calendar";
+import { UpdateProfileComponent } from "./components/UpdateEmail";
+import { UpdatePasswordComponent } from "./components/UpdatePassword";
+import { ForgotPassword } from "./scenes/forgot-password";
+import { ResetPassword } from "./scenes/forgot-password/ResetPassword";
 
 
 
@@ -53,6 +56,14 @@ function App() {
       <Route path="/login" element={
         <PublicRoute><LoginPage /></PublicRoute>} />
 
+        <Route path="/forgot-password" element={
+            <PublicRoute><ForgotPassword /></PublicRoute>} 
+          />
+ <Route path="/reset-password" element={
+            <PublicRoute><ResetPassword /></PublicRoute>} 
+          />
+
+
       <Route
         element={
           <ProtectedRoute>
@@ -65,17 +76,17 @@ function App() {
  
   <Route index element={<UpdateProfileComponent />} /> 
   <Route path="profile" element={<UpdateProfileComponent />} />
-  <Route path="equipo" element={<></>} />
-  <Route path="pagos" element={<></>} />
-  <Route path="password" element={<></>} />
+  <Route path="equipo" element={<AdminRegister/>} />
+  {/* <Route path="pagos" element={<></>} /> */}
+  <Route path="password" element={<UpdatePasswordComponent/>} />
 </Route>          
       <Route path="/panel-doctores" element={<DoctorPanel />} />
       <Route path="/especialidades" element={<Specialities/>}/>
       <Route path="/invoices" element={<Invoices />} />
-      <Route path="/form" element={<AdminRegister />} />
       <Route path="/calendario" element={< AdminAgenda/>} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/pagos" element={<Transactions />} />
+      <Route path="/finanzas/metricas" element={<Transactions />} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/soporte" element={<Reports />} />
       <Route path="/patient/profile/:id" element={<UserProfile />} />

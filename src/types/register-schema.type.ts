@@ -7,7 +7,7 @@ message:z.string()
 
 
 export const createAdminSchema = z.object({
-  name: z
+  fullname: z
     .string()
     .min(3, { message: "El nombre debe tener al menos 3 caracteres." })
     .max(50, { message: "El nombre no puede tener más de 50 caracteres." })

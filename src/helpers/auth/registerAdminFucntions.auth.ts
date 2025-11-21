@@ -11,7 +11,7 @@ import { ErrorHelper } from "../error/error.helper";
 export const useRegisterAdmin=()=>{
  const initialState: CreateAdminSchema = {
     email: "",
-    name: "",
+    fullname: "",
   };
   const [userData, setUserData] = useState<CreateAdminSchema>(initialState);
   const [errors, setErrors] = useState<RegisterErrors | null>(null);
@@ -51,7 +51,10 @@ export const useRegisterAdmin=()=>{
       setErrors(null);
       try {
         const response = await createAdmin(userData);
-        swalNotifySuccess(response.message || "¡Usuario creado exitosamente!","");
+        swalNotifySuccess(
+          response.message || "¡Usuario creado exitosamente!",
+          ""
+        );
         setUserData(initialState);
       } catch (error) {
         if (error instanceof ErrorHelper) {
@@ -60,6 +63,7 @@ export const useRegisterAdmin=()=>{
           console.error("Error inesperado en handleSubmit:", error);
           swalNotifyUnknownError(error);
         }
+      } finally {
         setIsSubmitting(false);
       }
     };

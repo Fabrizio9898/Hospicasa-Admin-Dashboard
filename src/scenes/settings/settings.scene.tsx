@@ -2,12 +2,15 @@ import { Box, Typography, useTheme, Button, Stack, Tabs, Tab } from "@mui/materi
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { tokens } from "../../theme";
 import { Theme } from '@mui/material/styles';
+import { useAuthStore } from "../../store/auth.store";
+import { UserRole } from "../../enums/userRole.enum";
 
 
 const SettingsLayout = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const location = useLocation(); 
+  const user = useAuthStore((state) => state.user);
   const currentTab = location.pathname;
 const tabStyle = {
 fontFamily: theme.typography.fontFamily ?? "sans-serif",
@@ -132,20 +135,23 @@ borderColor: colors.grey[200],
             value="/settings"
             sx={tabStyle} 
           />
-          <Tab
+{user?.role===UserRole.SUPER_ADMIN && (
+ <Tab
             label="Equipo"
             component={Link}
             to="/settings/equipo"
             value="/settings/equipo"
             sx={tabStyle}
           />
-          <Tab
+)}
+         
+          {/* <Tab
             label="Pagos"
             component={Link}
             to="/settings/pagos"
             value="/settings/pagos"
             sx={tabStyle}
-          />
+          /> */}
           <Tab
             label="Contraseña"
             component={Link}
